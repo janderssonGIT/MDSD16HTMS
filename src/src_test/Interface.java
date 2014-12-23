@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.format.TextStyle;
 
@@ -64,7 +65,7 @@ public class Interface {
 	JTextField textPrice;
 	JTextField textFloor;
 	JTextField textRoomtype;
-	JScrollPane scrollPane;
+	public JScrollPane scrollPane;
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -324,6 +325,10 @@ public class Interface {
 	}
 	
 	public void eventHandler() {
+		
+		Room methodSelectTable = new Room();
+		
+		
 		//Exitbutton
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -335,7 +340,7 @@ public class Interface {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
-				Room methodSelectTable = new Room();
+				//Room methodSelectTable = new Room();
 				
 				
 				//READ THE ROOMID FROM THE JTABLE
@@ -416,50 +421,36 @@ public class Interface {
 				btnEditRooms.setEnabled(true);
 				btnExit.setEnabled(false);
 				
-				/*
-				Room rm=new Room();
-				table.setModel(DbUtils.resultSetToTableModel(rm.showValuesInTable()));
-				*/
 				
-				
-				   Statement stmt = null;
-				   
-				  Connection p = null;
-				    try {
-				      Class.forName("org.sqlite.JDBC");
-				      //p = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Jim\\Desktop\\eclipse\\db\\RoomDB.sqlite");
-				      
-				      //mayo database
-				      p = DriverManager.getConnection("jdbc:sqlite:D:\\eclipse\\Room.sqlite");
-				    
-				      p.setAutoCommit(false);
-				      System.out.println("Opened database successfully");
-				      
-				      stmt = p.createStatement();
-				      String sql = "SELECT * FROM ROOM;";
-				      PreparedStatement pst=p.prepareStatement(sql);
-				      ResultSet rs=pst.executeQuery();
-				      
-				      table.setModel(DbUtils.resultSetToTableModel(rs));
-				      
-				      pst.execute();
-				      			      
-				      //stmt.executeUpdate(sql);
-				      p.commit();			      
-				 
-				      stmt.close();
-				      p.close();
-				    } catch ( Exception exc ) {
-				      System.err.println( exc.getClass().getName() + ": " + exc.getMessage() );
-				      JOptionPane.showMessageDialog(null, "error", "error",JOptionPane.ERROR_MESSAGE);
-				      System.exit(0);
-				    }
-				    System.out.println("Operation done successfully");
-				 
-				//
-				  
-				
-			}
+			/*
+			 THESE MUST WORK I DONT KNOW WHYµ
+			 
+			Room err=new Room();
+			err.showValues();
+			ResultSet rsr=err.getRsq();
+			
+			table.setModel(DbUtils.resultSetToTableModel(rsr));
+			*/
+					
+			//show values in the Jtable	
+				//START CONNECTION
+				SQLconnection cot = new SQLconnection();
+				cot.StartConnection();
+			 String sql = "SELECT * FROM ROOM;";
+			 try{
+			 PreparedStatement pst=cot.connect.prepareStatement(sql);
+			 ResultSet rs=pst.executeQuery();
+		     table.setModel(DbUtils.resultSetToTableModel(rs));
+			 pst.execute();
+					      			      
+			 }
+			 catch(Exception rt){rt.printStackTrace();}
+			 cot.endConnection();
+					    System.out.println("Operation done show successfully");
+					
+					}
+			
+			
 			
 		});
 		//Done - Booking (Returns to Main menu)
@@ -512,6 +503,6 @@ public class Interface {
 		});
 		
 	
-		
+			
 	}
 }

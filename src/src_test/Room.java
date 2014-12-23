@@ -1,12 +1,16 @@
 package src_test;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.text.html.parser.Entity;
 
 import net.proteanit.sql.DbUtils;
 
@@ -17,7 +21,16 @@ public class Room extends Interface {
 	private String RoomType;
 	private int RoomPrice;
 	private String Status;
+	private ResultSet rsq;
+
 	
+	
+	public ResultSet getRsq() {
+		return rsq;
+	}
+	public void setRsq(ResultSet rsq) {
+		this.rsq = rsq;
+	}
 	public String getStatus() {
 		return Status;
 	}
@@ -57,9 +70,11 @@ public class Room extends Interface {
 		RoomType = roomType;
 		RoomPrice = roomPrice;
 		Status = status;
+		
+		
 	}
 	public Room() {
-		
+		//rsq=null;
 	}
 	public void editRoom(String idRoom ) {
 		
@@ -97,34 +112,27 @@ public class Room extends Interface {
 	public void addRoom() {
 		
 	}
-	
-	/*
-	public ResultSet showValuesInTable(){
-		
-		ResultSet rs="";
-
+	 public void showValues(){	    
 		//START CONNECTION
 				SQLconnection c = new SQLconnection();
 				c.StartConnection();
+				
 		      String sql = "SELECT * FROM ROOM;";
 		      try{
 		      PreparedStatement pst=c.connect.prepareStatement(sql);
 		      
-		      rs=pst.executeQuery();
-		      pst.execute();
-		      c.endConnection();
+		       rsq=pst.executeQuery();		       
 		      }
-		      catch(Exception exp){
-		    	  exp.printStackTrace();
-		    	  
+		      catch(Exception exr){
+		    	  exr.printStackTrace();
 		      }
-		//
-		    
-		
-		
-		return rs;
-	}
-	*/
+		   
+	     finally{
+	    	 c.endConnection(); 
+	     }
+	
+	 }
+	
 	
 	
 }
