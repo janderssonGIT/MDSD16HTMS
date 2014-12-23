@@ -112,15 +112,16 @@ public class Room extends Interface {
 	public void addRoom() {
 		
 	}
+	
 	 public void showValues(){	    
 		//START CONNECTION
 				SQLconnection c = new SQLconnection();
 				c.StartConnection();
-				
+			//GET VALUES FROM DATABASE	
 		      String sql = "SELECT * FROM ROOM;";
 		      try{
 		      PreparedStatement pst=c.connect.prepareStatement(sql);
-		      
+		      //SAVE THEM IN THE RESULTSET
 		       rsq=pst.executeQuery();		       
 		      }
 		      catch(Exception exr){

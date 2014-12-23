@@ -423,12 +423,13 @@ public class Interface {
 				
 				
 			/*
-			 THESE MUST WORK I DONT KNOW WHYµ
+			 
 			 
 			Room err=new Room();
 			err.showValues();
 			ResultSet rsr=err.getRsq();
 			
+			//PROBLEM WITH THIS FUNCTION,all well except here
 			table.setModel(DbUtils.resultSetToTableModel(rsr));
 			*/
 					
