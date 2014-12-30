@@ -10,7 +10,8 @@ public class Main extends Interface{
 				try {
 					Interface main = new Interface();
 					main.initializeUI();
-					main.eventHandler();
+					main.eventHandlerEditRoom();
+					main.eventHandlerBooking();
 					main.frmAlpha.setVisible(true);
 					
 				} catch (Exception e) {
