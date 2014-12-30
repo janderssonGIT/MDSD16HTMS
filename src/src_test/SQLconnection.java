@@ -13,7 +13,7 @@ public class SQLconnection {
 		try {
 		Class.forName("org.sqlite.JDBC");
 		
-		connect = DriverManager.getConnection("jdbc:sqlite:D:\\eclipse\\Room.sqlite");
+		connect = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Jim\\Desktop\\eclipse\\db\\RoomDB.sqlite");
 		connect.setAutoCommit(false);
 	      System.out.println("Opened database successfully");
 	      stmt = connect.createStatement();

@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.format.TextStyle;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -37,6 +38,10 @@ import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 import src_test.Room;
 
+import com.toedter.calendar.JCalendar;
+
+import javax.swing.UIManager;
+
 public class Interface {
 	
 	JFrame frmAlpha;
@@ -53,19 +58,30 @@ public class Interface {
 	JButton btnBooking;
 	JButton btnEditRooms;
 	JButton btnExit;
-	JButton btnDone1;
 	JButton btnDone2;
 	JButton btnDone3;
 	JButton btnDone4; 
 	JButton btnCreate;
+	JButton btnDelete;
+	JButton btnUpdate;
 	JTable table;
 	JLabel lblRoomID;
 	JTextField textID;
 	JLabel lblFloor;
 	JTextField textPrice;
 	JTextField textFloor;
-	JTextField textRoomtype;
+	JComboBox<String[]> comboRoomType;
+	JCheckBox chckbxStatus;
 	public JScrollPane scrollPane;
+	private JPanel bookingSelections;
+	private JPanel bookingSearchRes;
+	private JPanel bookingCinfo;
+	private JPanel bookingSummary;
+	private JTextField textFieldBookSD;
+	private JTextField textFieldBookED;
+	private JTextField textFieldBookGuestNum;
+	private JTable table_1;
+	String[] roomTypes;
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -99,7 +115,6 @@ public class Interface {
 		childBooking.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Booking", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		childBooking.setBackground(Color.LIGHT_GRAY);
 		contentParent.add(childBooking, "name_5484551631872");
-		childBooking.setLayout(null);
 		childBooking.setVisible(false);
 		
 		childCheckIn = new JPanel();
@@ -144,17 +159,10 @@ public class Interface {
 		lblFloor = new JLabel("Floor:");
 		lblFloor.setBounds(16, 59, 95, 14);
 		
-		JLabel lblNumberOfBeds = new JLabel("Number of beds:");
-		lblNumberOfBeds.setBounds(16, 87, 95, 14);
-		
-		JComboBox comboNumBed = new JComboBox();
-		comboNumBed.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4"}));
-		comboNumBed.setBounds(153, 83, 54, 22);
-		
-		JPanel panelBeds = new JPanel();
-		panelBeds.setBounds(16, 116, 191, 135);
-		panelBeds.setBackground(Color.LIGHT_GRAY);
-		panelBeds.setBorder(new LineBorder(Color.GRAY, 1, true));
+		comboRoomType = new JComboBox();
+		roomTypes = new String[] {"Single", "Double", "Suite", "Dual Single", "Triple Single", "Family"};
+		comboRoomType.setModel(new DefaultComboBoxModel(roomTypes));
+		comboRoomType.setBounds(121, 83, 86, 22);
 		
 		JLabel lblNewLabel = new JLabel("Status:");
 		lblNewLabel.setBounds(255, 32, 69, 14);
@@ -166,76 +174,14 @@ public class Interface {
 		textPrice.setBounds(385, 56, 86, 20);
 		textPrice.setColumns(10);
 		
-		JCheckBox chckbxStatus = new JCheckBox("Occupied");
+		chckbxStatus = new JCheckBox("Occupied");
 		chckbxStatus.setEnabled(false);
 		chckbxStatus.setBackground(Color.LIGHT_GRAY);
 		chckbxStatus.setBounds(385, 28, 86, 23);
-		
-		JLabel lblBed = new JLabel("Bedtype 1");
-		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Single", "Double ", "Suite"}));
-		
-		JLabel lblBed_1 = new JLabel("Bedtype 2");
-		
-		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setModel(new DefaultComboBoxModel(new String[] {"Single", "Double ", "Suite"}));
-		
-		JLabel lblBed_2 = new JLabel("Bedtype 3");
-		
-		JComboBox comboBox_4 = new JComboBox();
-		comboBox_4.setModel(new DefaultComboBoxModel(new String[] {"Single", "Double ", "Suite"}));
-		
-		JLabel lblBed_3 = new JLabel("Bedtype 4");
-		
-		JComboBox comboBox_5 = new JComboBox();
-		comboBox_5.setModel(new DefaultComboBoxModel(new String[] {"Single", "Double ", "Suite"}));
-		GroupLayout gl_panelBeds = new GroupLayout(panelBeds);
-		gl_panelBeds.setHorizontalGroup(
-			gl_panelBeds.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelBeds.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panelBeds.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(lblBed, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
-						.addComponent(lblBed_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblBed_2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblBed_3))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelBeds.createParallelGroup(Alignment.TRAILING)
-						.addComponent(comboBox_2, 0, 112, Short.MAX_VALUE)
-						.addComponent(comboBox_3, Alignment.LEADING, 0, 112, Short.MAX_VALUE)
-						.addComponent(comboBox_4, Alignment.LEADING, 0, 112, Short.MAX_VALUE)
-						.addComponent(comboBox_5, Alignment.LEADING, 0, 112, Short.MAX_VALUE))
-					.addContainerGap())
-		);
-		gl_panelBeds.setVerticalGroup(
-			gl_panelBeds.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelBeds.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panelBeds.createParallelGroup(Alignment.BASELINE)
-						.addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblBed))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelBeds.createParallelGroup(Alignment.BASELINE)
-						.addComponent(comboBox_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblBed_1))
-					.addGap(6)
-					.addGroup(gl_panelBeds.createParallelGroup(Alignment.BASELINE)
-						.addComponent(comboBox_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblBed_2))
-					.addGap(6)
-					.addGroup(gl_panelBeds.createParallelGroup(Alignment.BASELINE)
-						.addComponent(comboBox_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblBed_3))
-					.addContainerGap(67, Short.MAX_VALUE))
-		);
-		panelBeds.setLayout(gl_panelBeds);
 		panelAddRooms.setLayout(null);
 		panelAddRooms.add(textPrice);
 		panelAddRooms.add(chckbxStatus);
-		panelAddRooms.add(panelBeds);
-		panelAddRooms.add(lblNumberOfBeds);
-		panelAddRooms.add(comboNumBed);
+		panelAddRooms.add(comboRoomType);
 		panelAddRooms.add(lblFloor);
 		panelAddRooms.add(lblRoomID);
 		panelAddRooms.add(textID);
@@ -248,20 +194,15 @@ public class Interface {
 		textFloor.setColumns(10);
 		
 		JLabel lblRoomType = new JLabel("Room type:");
-		lblRoomType.setBounds(255, 87, 86, 14);
+		lblRoomType.setBounds(16, 87, 86, 14);
 		panelAddRooms.add(lblRoomType);
-		
-		textRoomtype = new JTextField();
-		textRoomtype.setBounds(385, 84, 86, 20);
-		panelAddRooms.add(textRoomtype);
-		textRoomtype.setColumns(10);
 		//*****************************
 		btnCreate=new JButton("Create");
 		
 		btnCreate.setBounds(382, 297, 89, 23);
 		panelAddRooms.add(btnCreate);
 		
-		JButton btnUpdate = new JButton("Update");
+		btnUpdate = new JButton("Update");		
 		btnUpdate.setBounds(382, 266, 89, 23);
 		panelAddRooms.add(btnUpdate);
 				
@@ -285,10 +226,96 @@ public class Interface {
 		});
 		btnEditRooms.setBounds(0, 69, 127, 23);
 		childMenu.add(btnEditRooms);		
+		childBooking.setLayout(new CardLayout(0, 0));
 		
-		btnDone1 = new JButton("Done");
-		btnDone1.setBounds(680, 539, 73, 23);
-		childBooking.add(btnDone1);		
+		bookingSelections = new JPanel();
+		bookingSelections.setBackground(Color.LIGHT_GRAY);
+		childBooking.add(bookingSelections, "name_362396983654753");
+		bookingSelections.setLayout(null);
+		
+		JLabel lblStartDate = new JLabel("Start date:");
+		lblStartDate.setBounds(20, 11, 79, 14);
+		bookingSelections.add(lblStartDate);
+		
+		JLabel lblEndDate = new JLabel("End date:");
+		lblEndDate.setBounds(20, 36, 79, 14);
+		bookingSelections.add(lblEndDate);
+		
+		JLabel lblNumberOfRooms = new JLabel("Number of Rooms:");
+		lblNumberOfRooms.setBounds(20, 61, 102, 14);
+		bookingSelections.add(lblNumberOfRooms);
+		
+		textFieldBookSD = new JTextField();
+		textFieldBookSD.setToolTipText("YYYY-MM-DD");
+		textFieldBookSD.setBounds(139, 8, 86, 20);
+		bookingSelections.add(textFieldBookSD);
+		textFieldBookSD.setColumns(10);
+		
+		textFieldBookED = new JTextField();
+		textFieldBookED.setToolTipText("YYYY-MM-DD");
+		textFieldBookED.setBounds(139, 33, 86, 20);
+		bookingSelections.add(textFieldBookED);
+		textFieldBookED.setColumns(10);
+		
+		JComboBox comboBoxBookNumRooms = new JComboBox();
+		comboBoxBookNumRooms.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4"}));
+		comboBoxBookNumRooms.setBounds(189, 58, 36, 20);
+		bookingSelections.add(comboBoxBookNumRooms);
+		
+		JButton btnSearchButton = new JButton("Search");
+		btnSearchButton.setBounds(652, 517, 89, 23);
+		bookingSelections.add(btnSearchButton);
+		
+		JButton btnBookingCancel1 = new JButton("Cancel");
+		btnBookingCancel1.setBounds(556, 517, 89, 23);
+		bookingSelections.add(btnBookingCancel1);
+		
+		JLabel lblNumberOfGuests = new JLabel("Number of guests");
+		lblNumberOfGuests.setBounds(20, 86, 102, 14);
+		bookingSelections.add(lblNumberOfGuests);
+		
+		textFieldBookGuestNum = new JTextField();
+		textFieldBookGuestNum.setBounds(189, 83, 36, 20);
+		bookingSelections.add(textFieldBookGuestNum);
+		textFieldBookGuestNum.setColumns(10);
+		
+		JLabel lblyyyymmdd = new JLabel("(YYYY-MM-DD)");
+		lblyyyymmdd.setBounds(235, 11, 86, 14);
+		bookingSelections.add(lblyyyymmdd);
+		
+		JLabel label = new JLabel("(YYYY-MM-DD)");
+		label.setBounds(235, 36, 86, 14);
+		bookingSelections.add(label);
+		
+		bookingSearchRes = new JPanel();
+		bookingSearchRes.setBackground(Color.LIGHT_GRAY);
+		childBooking.add(bookingSearchRes, "name_362401980778775");
+		bookingSearchRes.setLayout(null);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(56, 59, 645, 237);
+		bookingSearchRes.add(scrollPane_1);
+		
+		table_1 = new JTable();
+		scrollPane_1.setViewportView(table_1);
+		
+		JButton btnConfirm = new JButton("Confirm");
+		btnConfirm.setBounds(652, 517, 89, 23);
+		bookingSearchRes.add(btnConfirm);
+		
+		JButton btnCancel_1 = new JButton("Cancel");
+		btnCancel_1.setBounds(553, 517, 89, 23);
+		bookingSearchRes.add(btnCancel_1);
+		
+		bookingCinfo = new JPanel();
+		bookingCinfo.setBackground(Color.LIGHT_GRAY);
+		childBooking.add(bookingCinfo, "name_362405422276297");
+		bookingCinfo.setLayout(null);
+		
+		bookingSummary = new JPanel();
+		bookingSummary.setBackground(Color.LIGHT_GRAY);
+		childBooking.add(bookingSummary, "name_362408729838843");
+		bookingSummary.setLayout(null);
 		
 		btnDone2 = new JButton("Done");
 		btnDone2.setBounds(680, 539, 73, 23);
@@ -311,7 +338,7 @@ public class Interface {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		
-		JButton btnDelete = new JButton("Delete Room");
+		btnDelete = new JButton("Delete Room");
 		btnDelete.setBounds(639, 227, 114, 23);
 		childEditRooms.add(btnDelete);
 		
@@ -322,13 +349,14 @@ public class Interface {
 		btnExit = new JButton("Exit");
 		btnExit.setBounds(0, 550, 127, 23);
 		childMenu.add(btnExit);			
+		
+		JButton btnEditTab = new JButton("Edit Tab");
+		btnEditTab.setBounds(0, 92, 127, 23);
+		childMenu.add(btnEditTab);
 	}
 	
 	public void eventHandler() {
-		
-		Room methodSelectTable = new Room();
-		
-		
+
 		//Exitbutton
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -340,27 +368,37 @@ public class Interface {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
-				//Room methodSelectTable = new Room();
+				Room r = new Room();
+				r.editRoom(table, textID, textFloor, textPrice, comboRoomType, roomTypes, chckbxStatus);
+			    
+			}});	
+		//Delete Room
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 				
+				Room r = new Room();
+				r.deleteRoom(table);
+				r.showValues(table);		
+			}
+		});
+		//Add Room
+		btnCreate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {			
 				
-				//READ THE ROOMID FROM THE JTABLE
-				int row = table.getSelectedRow();
-				String tableClick=(table.getModel().getValueAt(row,0).toString());
+				Room r = new Room();
+				r.addRoom(table, textID, textFloor, textPrice, comboRoomType, chckbxStatus);
+				r.showValues(table);
+			}
+		});
+		//Update Room
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 				
-				//FIND FROM THE DATABASE VALUES WITH ID=ROOMID
-				methodSelectTable.editRoom(tableClick);
-				
-				//SET THE VALUES TO THE TEXTFIELDS
-				textID.setText(String.valueOf((methodSelectTable.getRoomID())));
-				textRoomtype.setText(methodSelectTable.getRoomType());
-				textFloor.setText(String.valueOf((methodSelectTable.getFloor())));
-				textPrice.setText(String.valueOf((methodSelectTable.getRoomPrice())));
-				
-				
-				
-				
-				
-			}});		
+				Room r = new Room();
+				r.updateRoom(table, textID, textFloor, textPrice, comboRoomType, chckbxStatus);
+				r.showValues(table);
+			}
+		});
 		
 		//Go to Booking
 		btnBooking.addActionListener(new ActionListener() {
@@ -421,50 +459,11 @@ public class Interface {
 				btnEditRooms.setEnabled(true);
 				btnExit.setEnabled(false);
 				
-				
-			/*
-			 
-			 
-			Room err=new Room();
-			err.showValues();
-			ResultSet rsr=err.getRsq();
+				Room r = new Room();
+				r.showValues(table);
+		
+				}	
 			
-			//PROBLEM WITH THIS FUNCTION,all well except here
-			table.setModel(DbUtils.resultSetToTableModel(rsr));
-			*/
-					
-			//show values in the Jtable	
-				//START CONNECTION
-				SQLconnection cot = new SQLconnection();
-				cot.StartConnection();
-			 String sql = "SELECT * FROM ROOM;";
-			 try{
-			 PreparedStatement pst=cot.connect.prepareStatement(sql);
-			 ResultSet rs=pst.executeQuery();
-		     table.setModel(DbUtils.resultSetToTableModel(rs));
-			 pst.execute();
-					      			      
-			 }
-			 catch(Exception rt){rt.printStackTrace();}
-			 cot.endConnection();
-					    System.out.println("Operation done show successfully");
-					
-					}
-			
-			
-			
-		});
-		//Done - Booking (Returns to Main menu)
-		btnDone1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnEditRooms.setEnabled(true);
-				btnCheckIn.setEnabled(true);
-				btnCheckOut.setEnabled(true);
-				btnBooking.setEnabled(true);
-				childBegin.setVisible(true);
-				btnExit.setEnabled(true);
-				childBooking.setVisible(false);
-			}
 		});
 		//Done - Check In (Returns to Main menu)
 		btnDone2.addActionListener(new ActionListener() {
@@ -502,8 +501,6 @@ public class Interface {
 				childEditRooms.setVisible(false);
 			}
 		});
-		
-	
-			
+					
 	}
 }
