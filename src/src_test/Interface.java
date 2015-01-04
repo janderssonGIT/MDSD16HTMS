@@ -626,14 +626,14 @@ public class Interface {
 		textField_6.setEditable(false);
 		textField_6.setBackground(Color.LIGHT_GRAY);
 		textField_6.setColumns(10);
-		textField_6.setBounds(138, 199, 112, 20);
+		textField_6.setBounds(138, 199, 161, 20);
 		bookingSummary.add(textField_6);
 		
 		textField_7 = new JTextField();
 		textField_7.setEditable(false);
 		textField_7.setBackground(Color.LIGHT_GRAY);
 		textField_7.setColumns(10);
-		textField_7.setBounds(138, 224, 111, 20);
+		textField_7.setBounds(138, 224, 161, 20);
 		bookingSummary.add(textField_7);
 		
 		textField_8 = new JTextField();

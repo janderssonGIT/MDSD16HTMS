@@ -374,21 +374,21 @@ public class Booking extends Interface{
 		String EndDate = formatter2.format(c2);
 		
 		if (table_1.getModel() != null) {
-			RID1 = (table_1.getModel().getValueAt(0,0).toString());
+			RID1 = (table_1.getModel().getValueAt(0,1).toString());
 			textField_3.setText(RID1);
 			
 		} else if (table_2.getModel() != null) {
 			
-			RID1 = (table_1.getModel().getValueAt(0,0).toString());
-			RID2 = (table_2.getModel().getValueAt(0,0).toString());
+			RID1 = (table_1.getModel().getValueAt(0,1).toString());
+			RID2 = (table_2.getModel().getValueAt(0,1).toString());
 			textField_3.setText(RID1);
 			textField_4.setText(RID2);
 			
 		} else if (table_3.getModel() != null) {
 			
-			RID1 = (table_1.getModel().getValueAt(0,0).toString());
-			RID2 = (table_2.getModel().getValueAt(0,0).toString());
-			RID3 = (table_3.getModel().getValueAt(0,0).toString());
+			RID1 = (table_1.getModel().getValueAt(0,1).toString());
+			RID2 = (table_2.getModel().getValueAt(0,1).toString());
+			RID3 = (table_3.getModel().getValueAt(0,1).toString());
 			textField_3.setText(RID1);
 			textField_4.setText(RID2);
 			textField_5.setText(RID3);
