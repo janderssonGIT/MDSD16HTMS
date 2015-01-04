@@ -1,20 +1,13 @@
 package src_test;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.text.html.parser.Entity;
-
 import net.proteanit.sql.DbUtils;
 
 public class Room extends Interface {
@@ -63,7 +56,7 @@ public class Room extends Interface {
 		RoomPrice = roomPrice;
 	}
 
-	public Room(int roomID, int floor, String roomType, int roomPrice,
+	protected Room(int roomID, int floor, String roomType, int roomPrice,
 			String status) {
 		super();
 		RoomID = roomID;
@@ -73,10 +66,10 @@ public class Room extends Interface {
 		Status = status;		
 		
 	}
-	public Room() {
+	protected Room() {
 		
 	}
-	public void editRoom(JTable table, JTextField textID, JTextField textFloor, JTextField textPrice, JComboBox<String[]> comboRoomType, String[] roomTypes, JCheckBox chckbxStatus) {
+	protected void editRoom(JTable table, JTextField textID, JTextField textFloor, JTextField textPrice, JComboBox<String[]> comboRoomType, String[] roomTypes, JCheckBox chckbxStatus) {
 		
 		//Read the info from the JTable
 	    int row = table.getSelectedRow();
@@ -113,7 +106,7 @@ public class Room extends Interface {
 		
 	}
 			
-	public void addRoom(JTable table, JTextField textID, JTextField textFloor, JTextField textPrice, JComboBox<String[]> comboRoomType, JCheckBox chckbxStatus) {
+	protected void addRoom(JTable table, JTextField textID, JTextField textFloor, JTextField textPrice, JComboBox<String[]> comboRoomType, JCheckBox chckbxStatus) {
 		
 		String roomID = textID.getText();
 	    String floor = textFloor.getText();
@@ -141,7 +134,7 @@ public class Room extends Interface {
 		
 	}
 	
-	public void updateRoom(JTable table, JTextField textID, JTextField textFloor, JTextField textPrice, JComboBox<String[]> comboRoomType, JCheckBox chckbxStatus) {
+	protected void updateRoom(JTable table, JTextField textID, JTextField textFloor, JTextField textPrice, JComboBox<String[]> comboRoomType, JCheckBox chckbxStatus) {
 		
 		String roomID = textID.getText();
 	    String floor = textFloor.getText();
@@ -167,15 +160,15 @@ public class Room extends Interface {
 	     }
 	}
 	
-	public void deleteRoom(JTable table) {
+	protected void deleteRoom(JTable table) {
 		
 		 int row = table.getSelectedRow();
-		    String roomId = (table.getModel().getValueAt(row,0).toString());
+		    String roomID = (table.getModel().getValueAt(row,0).toString());
 		    
 		    SQLconnection c = new SQLconnection();
 			c.StartConnection();
 			
-			String sql = String.format("DELETE FROM RoomData WHERE RoomID = %s ;", roomId);
+			String sql = String.format("DELETE FROM RoomData WHERE RoomID = %s;", roomID);
 			
 	      try{
 	      PreparedStatement pst=c.connect.prepareStatement(sql);
@@ -192,7 +185,7 @@ public class Room extends Interface {
 		
 	}
 	
-	public void showValues(JTable table){	    
+	protected void showValues(JTable table){	    
 		 	
 				SQLconnection c = new SQLconnection();
 				c.StartConnection();
