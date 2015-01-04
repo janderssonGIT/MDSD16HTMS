@@ -104,7 +104,7 @@ public class Interface {
 	JTextPane textPaneDate1;
 	JTextPane textPaneDate2;
 	public JScrollPane scrollPane;
-	private JPanel bookingSelections;
+	JPanel bookingSelections;
 	private JPanel bookingSearchRes;
 	private JPanel bookingCinfo;
 	private JPanel bookingSummary;
@@ -120,10 +120,18 @@ public class Interface {
 	private JPanel panelCOUT_input;
 	private JPanel panelCOUT_summary;
 	private JPanel panelCOUT_payment;
-	private JTextField textField_name;
-	private JTextField textField_surname;
-	private JTextField textField_BNV;
-	private JTextField textField_cardNum;
+	protected JTextField textField_name;
+	protected JTextField textField_surname;
+	protected JTextField textField_BNV;
+	protected JTextField textField_cardNum;
+	protected JTextField textField_1;
+	protected JTextField textField_2;
+	protected JTextField textField_3;
+	protected JTextField textField_4;
+	protected JTextField textField_5;
+	protected JTextField textField_6;
+	protected JTextField textField_7;
+	protected JTextField textField_8;
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -551,13 +559,93 @@ public class Interface {
 		childBooking.add(bookingSummary, "name_362408729838843");
 		bookingSummary.setLayout(null);
 		
-		JButton btnDone = new JButton("Done");
-		btnDone.setBounds(652, 517, 89, 23);
-		bookingSummary.add(btnDone);
+		JButton btnDoneBooking = new JButton("Done");
+		btnDoneBooking.setBounds(652, 517, 89, 23);
+		bookingSummary.add(btnDoneBooking);
 		
 		JLabel lblSummary = new JLabel("Summary - 4/4");
 		lblSummary.setBounds(10, 526, 151, 14);
 		bookingSummary.add(lblSummary);
+		
+		JLabel lblName_1 = new JLabel("Name:");
+		lblName_1.setBounds(10, 60, 106, 14);
+		bookingSummary.add(lblName_1);
+		
+		JLabel lblSurname_1 = new JLabel("Surname:");
+		lblSurname_1.setBounds(10, 85, 106, 14);
+		bookingSummary.add(lblSurname_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Roomtype(s):");
+		lblNewLabel_2.setBounds(10, 174, 106, 14);
+		bookingSummary.add(lblNewLabel_2);
+		
+		JLabel lblStartDate_1 = new JLabel("Start date:");
+		lblStartDate_1.setBounds(10, 199, 151, 14);
+		bookingSummary.add(lblStartDate_1);
+		
+		JLabel lblEndDate_1 = new JLabel("End date:");
+		lblEndDate_1.setBounds(10, 224, 106, 14);
+		bookingSummary.add(lblEndDate_1);
+		
+		textField_1 = new JTextField();
+		textField_1.setEditable(false);
+		textField_1.setBackground(Color.LIGHT_GRAY);
+		textField_1.setBounds(138, 60, 111, 20);
+		bookingSummary.add(textField_1);
+		textField_1.setColumns(10);
+		
+		textField_2 = new JTextField();
+		textField_2.setEditable(false);
+		textField_2.setBackground(Color.LIGHT_GRAY);
+		textField_2.setColumns(10);
+		textField_2.setBounds(138, 85, 111, 20);
+		bookingSummary.add(textField_2);
+		
+		textField_3 = new JTextField();
+		textField_3.setEditable(false);
+		textField_3.setBackground(Color.LIGHT_GRAY);
+		textField_3.setColumns(10);
+		textField_3.setBounds(137, 168, 86, 20);
+		bookingSummary.add(textField_3);
+		
+		textField_4 = new JTextField();
+		textField_4.setEditable(false);
+		textField_4.setBackground(Color.LIGHT_GRAY);
+		textField_4.setColumns(10);
+		textField_4.setBounds(233, 168, 86, 20);
+		bookingSummary.add(textField_4);
+		
+		textField_5 = new JTextField();
+		textField_5.setEditable(false);
+		textField_5.setBackground(Color.LIGHT_GRAY);
+		textField_5.setColumns(10);
+		textField_5.setBounds(329, 168, 86, 20);
+		bookingSummary.add(textField_5);
+		
+		textField_6 = new JTextField();
+		textField_6.setEditable(false);
+		textField_6.setBackground(Color.LIGHT_GRAY);
+		textField_6.setColumns(10);
+		textField_6.setBounds(138, 199, 112, 20);
+		bookingSummary.add(textField_6);
+		
+		textField_7 = new JTextField();
+		textField_7.setEditable(false);
+		textField_7.setBackground(Color.LIGHT_GRAY);
+		textField_7.setColumns(10);
+		textField_7.setBounds(138, 224, 111, 20);
+		bookingSummary.add(textField_7);
+		
+		textField_8 = new JTextField();
+		textField_8.setEditable(false);
+		textField_8.setBackground(Color.LIGHT_GRAY);
+		textField_8.setBounds(329, 397, 86, 20);
+		bookingSummary.add(textField_8);
+		textField_8.setColumns(10);
+		
+		JLabel lblThisIsYour = new JLabel("This is your booking number, please save it:");
+		lblThisIsYour.setBounds(70, 400, 249, 14);
+		bookingSummary.add(lblThisIsYour);
 		childCheckIn.setVisible(false);		
 		childCheckOut.setVisible(false);
 		
@@ -843,7 +931,8 @@ public class Interface {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				Booking b = new Booking();
-				b.bookingValidate(table_1, table_2, table_3, calendar1, calendar2);
+				b.bookingValidate(table_1, table_2, table_3, calendar1, calendar2, textField_name, textField_surname, textField_cardNum, 
+						textField_BNV, comboBoxMM, comboBoxYY, textField_1, textField_2, textField_3, textField_4, textField_5, textField_6, textField_7, textField_8);
 				
 				bookingSelections.setVisible(false);
 				bookingSearchRes.setVisible(false);
