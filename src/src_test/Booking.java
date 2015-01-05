@@ -25,7 +25,6 @@ import com.toedter.calendar.JCalendar;
 public class Booking extends Interface{
 	
 	private ResultSet rsq;
-	private ResultSet bn;
 
 	public ResultSet getRsq() {
 		return rsq;
@@ -33,13 +32,7 @@ public class Booking extends Interface{
 	public void setRsq(ResultSet rsq) {
 		this.rsq = rsq;
 	}
-	
-	public ResultSet getbookingNum() {
-		return bn;
-	}
-	public void setbookingNum(ResultSet bn) {
-		this.bn = bn;
-	}
+
 
 	public Booking() {
 		
@@ -88,10 +81,9 @@ public class Booking extends Interface{
 		String s2 = formatter2.format(c2);
 		
 		textPaneDate1.setText(s1);
-		textPaneDate2.setText(s2);
-		
+		textPaneDate2.setText(s2);		
 	}
-	//TODO: Delete this stub?
+
 	public boolean searchRooms(JCalendar calendar1, JCalendar calendar2, JComboBox comboBoxBookNumRooms, JComboBox comboBoxRI, JComboBox comboBoxRII, JComboBox comboBoxRIII) {
 		
 		Date c1 = calendar1.getDate();
@@ -117,8 +109,6 @@ public class Booking extends Interface{
 	
 	public void showResult(JTable table_1, JTable table_2, JTable table_3, JCalendar calendar1, JCalendar calendar2, JComboBox comboBoxRI, JComboBox comboBoxRII, JComboBox comboBoxRIII, 
 			JPanel bookingSelections, JPanel bookingSearchRes, JPanel bookingCinfo, JPanel bookingSummary){	    
-	 	
-		//TODO: Se till att alla rum som presenteras i sök-resultatet är UNIQUE.
 		
 			SQLconnection c = new SQLconnection();
 			c.StartConnection();
@@ -126,9 +116,9 @@ public class Booking extends Interface{
 			Date c1 = calendar1.getDate();
 			Date c2 = calendar2.getDate();
 			
-			Format formatter1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Format formatter1 = new SimpleDateFormat("yyyy-MM-dd");
 			String StartDate = formatter1.format(c1);
-			Format formatter2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Format formatter2 = new SimpleDateFormat("yyyy-MM-dd");
 			String EndDate = formatter2.format(c2);
 			
 			String querystring = "select RoomData.RoomId as 'Room Id',RoomData.RoomType as 'Room type',RoomData.RoomPrice as 'Price per night',RoomData.Capacity as "
@@ -175,10 +165,15 @@ public class Booking extends Interface{
 				c.endConnection(); 
 			}
 			
-			if (table_1.getModel().getValueAt(0,0) == null) {
+			if (table_1.getModel().getRowCount() < 1) {
 				JOptionPane.showMessageDialog(null, "No available rooms were found!");
 				bookingSelections.setVisible(true);
 				bookingSearchRes.setVisible(false);
+				bookingCinfo.setVisible(false);
+				bookingSummary.setVisible(false);
+			} else {
+				bookingSelections.setVisible(false);
+				bookingSearchRes.setVisible(true);
 				bookingCinfo.setVisible(false);
 				bookingSummary.setVisible(false);
 			}
@@ -201,8 +196,7 @@ public class Booking extends Interface{
 			bookingSelections.setVisible(true);
 			bookingSearchRes.setVisible(false);
 			bookingCinfo.setVisible(false);
-			bookingSummary.setVisible(false);			
-			
+			bookingSummary.setVisible(false);						
 		}
 			
 	}
@@ -210,8 +204,7 @@ public class Booking extends Interface{
 	protected void bookingValidate(JTable table_1, JTable table_2, JTable table_3, JCalendar calendar1, 
 			JCalendar calendar2, JTextField textField_name, JTextField textField_surname, JTextField textField_cardNum, 
 			JTextField textField_BNV, JComboBox comboBoxMM, JComboBox comboBoxYY, JTextField textField_1, JTextField textField_2, JTextField textField_3, JTextField textField_4, 
-			JTextField textField_5, JTextField textField_6, JTextField textField_7, JTextField textField_8) {
-		
+			JTextField textField_5, JTextField textField_6, JTextField textField_7, JTextField textField_8) {	
 		
 		try {
 		
@@ -254,15 +247,13 @@ public class Booking extends Interface{
 		String RID2 = "";
 		String RID3 = "";
 		
-		Format formatter1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Format formatter1 = new SimpleDateFormat("yyyy-MM-dd 01:00:00");
 		String StartDate = formatter1.format(c1);
-		Format formatter2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Format formatter2 = new SimpleDateFormat("yyyy-MM-dd 12:00:00");
 		String EndDate = formatter2.format(c2);
 		
 		try{
-					
-			
-			
+						
 			if (table_1.getModel() != null) {
 				
 				RID1 = (table_1.getModel().getValueAt(0,0).toString());
@@ -305,8 +296,7 @@ public class Booking extends Interface{
 			JTable tempTab = new JTable();
 			tempTab.setModel(DbUtils.resultSetToTableModel(pst.executeQuery()));
 			bookingNum = Integer.toString((Integer) tempTab.getModel().getValueAt(0,0));
-			System.out.println("This is the num: " + bookingNum);
-		
+			System.out.println("This is the num: " + bookingNum);	
 			
 		}
 		catch(Exception exr){
@@ -331,12 +321,10 @@ public class Booking extends Interface{
 		String cardNum = textField_cardNum.getText();
 		String bnv = textField_BNV.getText();
 		int mm = Integer.valueOf((String)comboBoxMM.getSelectedItem());
-		int yy = Integer.valueOf((String)comboBoxYY.getSelectedItem());
-		
+		int yy = Integer.valueOf((String)comboBoxYY.getSelectedItem());	
 		
 		try{		
-			
-			
+						
 		String putCustomerDataSql = String.format("insert into TabData (BookingNum, Name, SurName, CVCNum, CardNumber, ExpMonth, ExpYear, TotalBill, IsCheckedIn) values "
 				+ "(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")", bookingNum, name, surname, bnv, cardNum, mm, yy, null, "false");
 		
@@ -368,14 +356,18 @@ public class Booking extends Interface{
 		Date c1 = calendar1.getDate();
 		Date c2 = calendar2.getDate();
 		
-		Format formatter1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Format formatter1 = new SimpleDateFormat("yyyy-MM-dd");
 		String StartDate = formatter1.format(c1);
-		Format formatter2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Format formatter2 = new SimpleDateFormat("yyyy-MM-dd");
 		String EndDate = formatter2.format(c2);
 		
-		if (table_1.getModel() != null) {
+		if (table_3.getModel() != null) {
 			RID1 = (table_1.getModel().getValueAt(0,1).toString());
+			RID2 = (table_2.getModel().getValueAt(0,1).toString());
+			RID3 = (table_3.getModel().getValueAt(0,1).toString());
 			textField_3.setText(RID1);
+			textField_4.setText(RID2);
+			textField_5.setText(RID3);
 			
 		} else if (table_2.getModel() != null) {
 			
@@ -384,23 +376,17 @@ public class Booking extends Interface{
 			textField_3.setText(RID1);
 			textField_4.setText(RID2);
 			
-		} else if (table_3.getModel() != null) {
+		} else if (table_1.getModel() != null) {
 			
 			RID1 = (table_1.getModel().getValueAt(0,1).toString());
-			RID2 = (table_2.getModel().getValueAt(0,1).toString());
-			RID3 = (table_3.getModel().getValueAt(0,1).toString());
 			textField_3.setText(RID1);
-			textField_4.setText(RID2);
-			textField_5.setText(RID3);
 		}
 		
 		textField_1.setText(name);
 		textField_2.setText(surname);
 		textField_6.setText(StartDate);
 		textField_7.setText(EndDate);
-		textField_8.setText(bookingNum);
-		
-		
+		textField_8.setText(bookingNum);		
 	}
 	
 }

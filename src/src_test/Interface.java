@@ -7,21 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.TextStyle;
 import java.util.Date;
-
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -32,26 +21,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
-
-import net.proteanit.sql.DbUtils;
 import src_test.Room;
-
 import com.toedter.calendar.JCalendar;
-
-import javax.swing.UIManager;
-import javax.swing.JFormattedTextField;
 import javax.swing.JTextPane;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
-import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class Interface {
 	
@@ -75,13 +52,16 @@ public class Interface {
 	JButton btnCreate;
 	JButton btnDelete;
 	JButton btnUpdate;
-	JButton btnEditTab;
 	JButton btnBookingCancel1;
 	JButton btnSearchButton;
 	JButton btnBookCancel_1;
 	JButton btnBookConfirm;
 	JButton btnBookCancel_2;
 	JButton btnValidate;
+	JButton btnDoneBooking;
+	JButton btnCINCancel;
+	JButton btnCOUTCancel;
+	JButton btnCINcontinue;
 	JTable table;
 	JLabel lblRoomID;
 	JLabel lblRoomI;
@@ -132,6 +112,17 @@ public class Interface {
 	protected JTextField textField_6;
 	protected JTextField textField_7;
 	protected JTextField textField_8;
+	private JTextField textFieldCIN;
+	private JLabel lblHotelManagementSystem;
+	private JTextField textFieldCOUT;
+	private JTextField ConfirmName;
+	private JTextField ConfirmSurName;
+	private JTextField ConfirmEndDate;
+	private JTextField ConfirmStartDate;
+	private JTextField rid1;
+	private JTextField rid2;
+	private JTextField rid3;
+	JCheckBox chckbxConfirmCheckin;
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -179,14 +170,105 @@ public class Interface {
 		childCheckIn.add(panelCIN_input, "name_56098983988884");
 		panelCIN_input.setLayout(null);
 		
+		JLabel lblPleaseEnterThe = new JLabel("Please enter the booking number:");
+		lblPleaseEnterThe.setBounds(45, 52, 195, 14);
+		panelCIN_input.add(lblPleaseEnterThe);
+		
+		textFieldCIN = new JTextField();
+		textFieldCIN.setBounds(239, 49, 86, 20);
+		panelCIN_input.add(textFieldCIN);
+		textFieldCIN.setColumns(10);
+		
+		btnCINcontinue = new JButton("Continue");
+		btnCINcontinue.setBounds(652, 516, 89, 23);
+		panelCIN_input.add(btnCINcontinue);
+		
+		btnCINCancel = new JButton("Cancel");
+		btnCINCancel.setBounds(553, 516, 89, 23);
+		panelCIN_input.add(btnCINCancel);
+		
 		panelCIN_confirm = new JPanel();
 		panelCIN_confirm.setBackground(Color.LIGHT_GRAY);
 		childCheckIn.add(panelCIN_confirm, "name_56292173208666");
 		panelCIN_confirm.setLayout(null);
 		
 		btnDone2 = new JButton("Done");
-		btnDone2.setBounds(684, 516, 57, 23);
+		btnDone2.setBounds(665, 516, 76, 23);
 		panelCIN_confirm.add(btnDone2);
+		
+		JLabel label_2 = new JLabel("Name:");
+		label_2.setBounds(34, 40, 106, 14);
+		panelCIN_confirm.add(label_2);
+		
+		JLabel label_3 = new JLabel("Surname:");
+		label_3.setBounds(34, 65, 106, 14);
+		panelCIN_confirm.add(label_3);
+		
+		ConfirmName = new JTextField();
+		ConfirmName.setEditable(false);
+		ConfirmName.setColumns(10);
+		ConfirmName.setBackground(Color.LIGHT_GRAY);
+		ConfirmName.setBounds(162, 40, 111, 20);
+		panelCIN_confirm.add(ConfirmName);
+		
+		ConfirmSurName = new JTextField();
+		ConfirmSurName.setEditable(false);
+		ConfirmSurName.setColumns(10);
+		ConfirmSurName.setBackground(Color.LIGHT_GRAY);
+		ConfirmSurName.setBounds(162, 65, 111, 20);
+		panelCIN_confirm.add(ConfirmSurName);
+		
+		JLabel lblRoomid = new JLabel("RoomID");
+		lblRoomid.setBounds(34, 154, 106, 14);
+		panelCIN_confirm.add(lblRoomid);
+		
+		JLabel label_5 = new JLabel("Start date:");
+		label_5.setBounds(34, 179, 151, 14);
+		panelCIN_confirm.add(label_5);
+		
+		JLabel label_6 = new JLabel("End date:");
+		label_6.setBounds(34, 204, 106, 14);
+		panelCIN_confirm.add(label_6);
+		
+		ConfirmEndDate = new JTextField();
+		ConfirmEndDate.setEditable(false);
+		ConfirmEndDate.setColumns(10);
+		ConfirmEndDate.setBackground(Color.LIGHT_GRAY);
+		ConfirmEndDate.setBounds(162, 204, 145, 20);
+		panelCIN_confirm.add(ConfirmEndDate);
+		
+		ConfirmStartDate = new JTextField();
+		ConfirmStartDate.setEditable(false);
+		ConfirmStartDate.setColumns(10);
+		ConfirmStartDate.setBackground(Color.LIGHT_GRAY);
+		ConfirmStartDate.setBounds(162, 179, 145, 20);
+		panelCIN_confirm.add(ConfirmStartDate);
+		
+		rid1 = new JTextField();
+		rid1.setEditable(false);
+		rid1.setColumns(10);
+		rid1.setBackground(Color.LIGHT_GRAY);
+		rid1.setBounds(161, 148, 86, 20);
+		panelCIN_confirm.add(rid1);
+		
+		rid2 = new JTextField();
+		rid2.setEditable(false);
+		rid2.setColumns(10);
+		rid2.setBackground(Color.LIGHT_GRAY);
+		rid2.setBounds(280, 148, 86, 20);
+		panelCIN_confirm.add(rid2);
+		
+		rid3 = new JTextField();
+		rid3.setEditable(false);
+		rid3.setColumns(10);
+		rid3.setBackground(Color.LIGHT_GRAY);
+		rid3.setBounds(388, 148, 86, 20);
+		panelCIN_confirm.add(rid3);
+		
+		chckbxConfirmCheckin = new JCheckBox("Confirm check-in.");
+		chckbxConfirmCheckin.setBackground(Color.LIGHT_GRAY);
+		chckbxConfirmCheckin.setBounds(482, 516, 151, 23);
+		panelCIN_confirm.add(chckbxConfirmCheckin);
 		childCheckIn.setVisible(false);
 		
 		childCheckOut = new JPanel();
@@ -199,6 +281,23 @@ public class Interface {
 		panelCOUT_input.setBackground(Color.LIGHT_GRAY);
 		childCheckOut.add(panelCOUT_input, "name_56451217707001");
 		panelCOUT_input.setLayout(null);
+		
+		JLabel label_1 = new JLabel("Please enter the booking number:");
+		label_1.setBounds(52, 49, 195, 14);
+		panelCOUT_input.add(label_1);
+		
+		textFieldCOUT = new JTextField();
+		textFieldCOUT.setColumns(10);
+		textFieldCOUT.setBounds(246, 46, 86, 20);
+		panelCOUT_input.add(textFieldCOUT);
+		
+		JButton btnCOUTcontinue = new JButton("Continue");
+		btnCOUTcontinue.setBounds(652, 516, 89, 23);
+		panelCOUT_input.add(btnCOUTcontinue);
+		
+		btnCOUTCancel = new JButton("Cancel");
+		btnCOUTCancel.setBounds(553, 516, 89, 23);
+		panelCOUT_input.add(btnCOUTCancel);
 		
 		panelCOUT_summary = new JPanel();
 		panelCOUT_summary.setBackground(Color.LIGHT_GRAY);
@@ -225,6 +324,13 @@ public class Interface {
 		childBegin = new JPanel();
 		childBegin.setBackground(Color.LIGHT_GRAY);
 		contentParent.add(childBegin, "name_8144873569318");
+		childBegin.setLayout(null);
+		
+		lblHotelManagementSystem = new JLabel("HOTEL MANAGEMENT SYSTEM v1.0");
+		lblHotelManagementSystem.setForeground(Color.DARK_GRAY);
+		lblHotelManagementSystem.setFont(new Font("Tahoma", Font.ITALIC, 37));
+		lblHotelManagementSystem.setBounds(88, 51, 665, 64);
+		childBegin.add(lblHotelManagementSystem);
 		childBegin.setVisible(true);
 		
 		JPanel panelAddRooms = new JPanel();
@@ -280,7 +386,6 @@ public class Interface {
 		JLabel lblRoomType = new JLabel("Room type:");
 		lblRoomType.setBounds(16, 87, 86, 14);
 		panelAddRooms.add(lblRoomType);
-		//*****************************
 		btnCreate=new JButton("Create");
 		
 		btnCreate.setBounds(382, 297, 89, 23);
@@ -332,11 +437,6 @@ public class Interface {
 		childMenu.add(btnCheckOut);		
 		
 		btnEditRooms = new JButton("Edit Rooms");
-		btnEditRooms.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-			}
-		});
 		btnEditRooms.setBounds(0, 69, 127, 23);
 		childMenu.add(btnEditRooms);		
 		childBooking.setLayout(new CardLayout(0, 0));
@@ -559,7 +659,7 @@ public class Interface {
 		childBooking.add(bookingSummary, "name_362408729838843");
 		bookingSummary.setLayout(null);
 		
-		JButton btnDoneBooking = new JButton("Done");
+		btnDoneBooking = new JButton("Done");
 		btnDoneBooking.setBounds(652, 517, 89, 23);
 		bookingSummary.add(btnDoneBooking);
 		
@@ -626,20 +726,20 @@ public class Interface {
 		textField_6.setEditable(false);
 		textField_6.setBackground(Color.LIGHT_GRAY);
 		textField_6.setColumns(10);
-		textField_6.setBounds(138, 199, 161, 20);
+		textField_6.setBounds(138, 199, 145, 20);
 		bookingSummary.add(textField_6);
 		
 		textField_7 = new JTextField();
 		textField_7.setEditable(false);
 		textField_7.setBackground(Color.LIGHT_GRAY);
 		textField_7.setColumns(10);
-		textField_7.setBounds(138, 224, 161, 20);
+		textField_7.setBounds(138, 224, 145, 20);
 		bookingSummary.add(textField_7);
 		
 		textField_8 = new JTextField();
 		textField_8.setEditable(false);
 		textField_8.setBackground(Color.LIGHT_GRAY);
-		textField_8.setBounds(329, 397, 86, 20);
+		textField_8.setBounds(329, 397, 46, 20);
 		bookingSummary.add(textField_8);
 		textField_8.setColumns(10);
 		
@@ -666,11 +766,7 @@ public class Interface {
 		
 		btnExit = new JButton("Exit");
 		btnExit.setBounds(0, 550, 127, 23);
-		childMenu.add(btnExit);			
-		
-		btnEditTab = new JButton("Edit Tab");
-		btnEditTab.setBounds(0, 92, 127, 23);
-		childMenu.add(btnEditTab);
+		childMenu.add(btnExit);
 	}
 	//EDIT ROOMS EVENTHANDLERS
 	public void eventHandlerEditRoom() {
@@ -716,23 +812,6 @@ public class Interface {
 				r.showValues(table);
 			}
 		});
-		
-		//Go to Check In
-		btnCheckIn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				childBooking.setVisible(false);
-				childCheckIn.setVisible(true);
-				childCheckOut.setVisible(false);
-				childBegin.setVisible(false);
-				childEditRooms.setVisible(false);
-				btnEditTab.setEnabled(false);
-				btnCheckIn.setEnabled(true);
-				btnCheckOut.setEnabled(false);
-				btnBooking.setEnabled(false);
-				btnEditRooms.setEnabled(false);
-				btnExit.setEnabled(false);
-			}
-		});
 		//Go to Check Out	
 		btnCheckOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -741,7 +820,6 @@ public class Interface {
 				childCheckOut.setVisible(true);
 				childBegin.setVisible(false);
 				childEditRooms.setVisible(false);
-				btnEditTab.setEnabled(false);
 				btnCheckIn.setEnabled(false);
 				btnCheckOut.setEnabled(true);
 				btnBooking.setEnabled(false);
@@ -757,7 +835,6 @@ public class Interface {
 				childCheckOut.setVisible(false);
 				childBegin.setVisible(false);
 				childEditRooms.setVisible(true);
-				btnEditTab.setEnabled(false);
 				btnCheckIn.setEnabled(false);
 				btnCheckOut.setEnabled(false);
 				btnBooking.setEnabled(false);
@@ -770,25 +847,6 @@ public class Interface {
 				}	
 			
 		});
-		//Go to Edit Tab
-		btnEditTab.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		//Done - Check In (Returns to Main menu)
-		btnDone2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnEditRooms.setEnabled(true);
-				btnCheckIn.setEnabled(true);
-				btnCheckOut.setEnabled(true);
-				btnBooking.setEnabled(true);
-				btnEditTab.setEnabled(true);
-				childBegin.setVisible(true);
-				btnExit.setEnabled(true);
-				childCheckIn.setVisible(false);
-			}
-		});
 		//Done - Check Out (Returns to Main menu)
 		btnDone3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -796,7 +854,6 @@ public class Interface {
 				btnCheckIn.setEnabled(true);
 				btnCheckOut.setEnabled(true);
 				btnBooking.setEnabled(true);
-				btnEditTab.setEnabled(true);
 				childBegin.setVisible(true);
 				btnExit.setEnabled(true);
 				childCheckOut.setVisible(false);
@@ -809,7 +866,6 @@ public class Interface {
 				btnCheckIn.setEnabled(true);
 				btnCheckOut.setEnabled(true);
 				btnBooking.setEnabled(true);
-				btnEditTab.setEnabled(true);
 				childBegin.setVisible(true);
 				btnExit.setEnabled(true);
 				childEditRooms.setVisible(false);
@@ -827,7 +883,6 @@ public class Interface {
 				childCheckOut.setVisible(false);
 				childBegin.setVisible(false);
 				childEditRooms.setVisible(false);
-				btnEditTab.setEnabled(false);
 				btnCheckIn.setEnabled(false);
 				btnCheckOut.setEnabled(false);
 				btnBooking.setEnabled(true);
@@ -839,29 +894,22 @@ public class Interface {
 						
 			}			
 		});
+		//Searchrooms
 		btnSearchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				Booking b = new Booking();
 				
 				if (b.searchRooms(calendar1, calendar2, comboBoxBookNumRooms, comboBoxRI, comboBoxRII, comboBoxRIII)) {
-					bookingSelections.setVisible(false);
-					bookingSearchRes.setVisible(true);
-					bookingCinfo.setVisible(false);
-					bookingSummary.setVisible(false);
-					
-					
-					
+									
 					b.showResult(table_1, table_2, table_3, calendar1, calendar2, comboBoxRI, comboBoxRII, comboBoxRIII, bookingSelections, bookingSearchRes, bookingCinfo, bookingSummary);
-					
-					
+									
 				} else {
 					JOptionPane.showMessageDialog(null, "Selected checkout date may not end within 24 hours of the start date!");
 				}
 														
 			}
-		});
-		
+		});	
 		//Return to Main from Booking
 		btnBookingCancel1.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent arg0) {
@@ -869,7 +917,6 @@ public class Interface {
 				btnCheckIn.setEnabled(true);
 				btnCheckOut.setEnabled(true);
 				btnBooking.setEnabled(true);
-				btnEditTab.setEnabled(true);
 				childBegin.setVisible(true);
 				btnExit.setEnabled(true);
 				childBooking.setVisible(false);
@@ -884,7 +931,7 @@ public class Interface {
 				
 			}
 		});		
-		//Update selected date #1
+		//Update selected date of JCalendar#1
 		calendar1.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent arg0) {
 				
@@ -892,7 +939,7 @@ public class Interface {
 				b.showDates(calendar1, calendar2, textPaneDate1, textPaneDate2);
 			}
 		});
-		//Update selected date #2
+		//Update selected date of JCalendar#2
 		calendar2.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent arg0) {
 				
@@ -909,7 +956,7 @@ public class Interface {
 				bookingSummary.setVisible(false);
 			}
 		});
-		//Confirm Rooms
+		//Confirm.button, 2nd page
 		btnBookConfirm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -917,7 +964,7 @@ public class Interface {
 				b.confirmRooms(bookingSelections, bookingSearchRes, bookingCinfo, bookingSummary);
 			}
 		});
-		//3rd page "Back" -button
+		//3rd booking page "Back" -button
 		btnBookCancel_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				bookingSelections.setVisible(false);
@@ -926,7 +973,8 @@ public class Interface {
 				bookingSummary.setVisible(false);
 			}
 		});
-		//Do validate
+		//Perform validation with the bank -if successful, save the booking with an associated bookingNumber, 
+		//and create a customer tab with the associated bookingNumber. Print bookingNumber.
 		btnValidate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -942,7 +990,88 @@ public class Interface {
 				JOptionPane.showMessageDialog(null, "Booking successful! Please save your booking-number.");
 				
 			}
+		});		
+		btnDoneBooking.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btnEditRooms.setEnabled(true);
+				btnCheckIn.setEnabled(true);
+				btnCheckOut.setEnabled(true);
+				btnBooking.setEnabled(true);
+				childBegin.setVisible(true);
+				btnExit.setEnabled(true);
+				childBooking.setVisible(false);
+			}
 		});
 		
+	}	
+	//CHECKIN EVENTHANDLERS
+	public void eventHandlerCheckIn() {
+		
+		btnCheckIn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				childBooking.setVisible(false);
+				childCheckIn.setVisible(true);
+				childCheckOut.setVisible(false);
+				childBegin.setVisible(false);
+				childEditRooms.setVisible(false);
+				btnCheckIn.setEnabled(true);
+				btnCheckOut.setEnabled(false);
+				btnBooking.setEnabled(false);
+				btnEditRooms.setEnabled(false);
+				btnExit.setEnabled(false);
+				panelCIN_input.setVisible(true);
+			}
+		});
+		btnCINCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnEditRooms.setEnabled(true);
+				btnCheckIn.setEnabled(true);
+				btnCheckOut.setEnabled(true);
+				btnBooking.setEnabled(true);
+				childBegin.setVisible(true);
+				btnExit.setEnabled(true);
+				childCheckIn.setVisible(false);
+			}
+		});
+		btnCINcontinue.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				CheckIn ci = new CheckIn();
+				ci.getCheckInData(textFieldCIN, ConfirmName, ConfirmSurName, rid1, rid2, rid3, ConfirmStartDate, ConfirmEndDate, panelCIN_input, panelCIN_confirm);
+			}
+		});
+		btnDone2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnEditRooms.setEnabled(true);
+				btnCheckIn.setEnabled(true);
+				btnCheckOut.setEnabled(true);
+				btnBooking.setEnabled(true);
+				childBegin.setVisible(true);
+				btnExit.setEnabled(true);
+				childCheckIn.setVisible(false);
+				panelCIN_input.setVisible(false);
+				panelCIN_confirm.setVisible(false);
+				
+				CheckIn ci = new CheckIn();
+				ci.confirmCheckIn(textFieldCIN, chckbxConfirmCheckin);
+				
+			}
+		});
+
+	}	
+	//CHECKOUT EVENTHANDLERS
+	public void eventHandlerCheckOut() {	
+		btnCOUTCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnEditRooms.setEnabled(true);
+				btnCheckIn.setEnabled(true);
+				btnCheckOut.setEnabled(true);
+				btnBooking.setEnabled(true);
+				childBegin.setVisible(true);
+				btnExit.setEnabled(true);
+				childCheckOut.setVisible(false);
+			}
+		});		
+
 	}
 }

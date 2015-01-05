@@ -12,6 +12,8 @@ public class Main extends Interface{
 					main.initializeUI();
 					main.eventHandlerEditRoom();
 					main.eventHandlerBooking();
+					main.eventHandlerCheckIn();
+					main.eventHandlerCheckOut();
 					main.frmAlpha.setVisible(true);
 					
 				} catch (Exception e) {
