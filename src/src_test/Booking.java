@@ -1,6 +1,5 @@
 package src_test;
 
-import java.awt.Button;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.Format;
@@ -33,11 +32,10 @@ public class Booking extends Interface{
 		this.rsq = rsq;
 	}
 
-
 	public Booking() {
 		
 	}
-	
+	//Method for enabling Roomtype comboboxes based on the input of a combobox representing the number of rooms.
 	public void setNumOfRooms(JComboBox comboBoxBookNumRooms, JComboBox comboBoxRI, JComboBox comboBoxRII, JComboBox comboBoxRIII, JLabel lblRoomI, JLabel lblRoomII, JLabel lblRoomIII) {
 		
 		String cbv = (String) comboBoxBookNumRooms.getSelectedItem();
@@ -69,7 +67,7 @@ public class Booking extends Interface{
 			lblRoomIII.setEnabled(true);
 		}
 	}
-	
+	//Displays the JCalendar Date() values from both calendars in string format in the lower textfields.
 	public void showDates(JCalendar calendar1, JCalendar calendar2, JTextPane textPaneDate1, JTextPane textPaneDate2) {
 		
 		Date c1 = calendar1.getDate();
@@ -83,7 +81,7 @@ public class Booking extends Interface{
 		textPaneDate1.setText(s1);
 		textPaneDate2.setText(s2);		
 	}
-
+	//Method for querying the database for unique room(s) of a set roomtype between the set start -and end date.
 	public boolean searchRooms(JCalendar calendar1, JCalendar calendar2, JComboBox comboBoxBookNumRooms, JComboBox comboBoxRI, JComboBox comboBoxRII, JComboBox comboBoxRIII) {
 		
 		Date c1 = calendar1.getDate();
@@ -106,7 +104,7 @@ public class Booking extends Interface{
 		return true;
 		
 	}
-	
+	//Method for displaying the search results in JTables.
 	public void showResult(JTable table_1, JTable table_2, JTable table_3, JCalendar calendar1, JCalendar calendar2, JComboBox comboBoxRI, JComboBox comboBoxRII, JComboBox comboBoxRIII, 
 			JPanel bookingSelections, JPanel bookingSearchRes, JPanel bookingCinfo, JPanel bookingSummary){	    
 		
@@ -179,7 +177,7 @@ public class Booking extends Interface{
 			}
 
 	}
-	
+	//Simple method for switching panels through a confirmation dialog.
 	public void confirmRooms(JPanel bookingSelections, JPanel bookingSearchRes, JPanel bookingCinfo, JPanel bookingSummary) {
 		
 		int result = JOptionPane.showOptionDialog(null, "Do you wish to confirm the selected rooms?", "Confirm Booking.", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
@@ -200,19 +198,27 @@ public class Booking extends Interface{
 		}
 			
 	}
-	
+	//Method for validating the customer's card information, and if validated, record the completed booking in the database and display a summary with a generated booking number.
 	protected void bookingValidate(JTable table_1, JTable table_2, JTable table_3, JCalendar calendar1, 
 			JCalendar calendar2, JTextField textField_name, JTextField textField_surname, JTextField textField_cardNum, 
 			JTextField textField_BNV, JComboBox comboBoxMM, JComboBox comboBoxYY, JTextField textField_1, JTextField textField_2, JTextField textField_3, JTextField textField_4, 
-			JTextField textField_5, JTextField textField_6, JTextField textField_7, JTextField textField_8) {	
+			JTextField textField_5, JTextField textField_6, JTextField textField_7, JTextField textField_8, JPanel bookingSelections, JPanel bookingSearchRes,
+			JPanel bookingCinfo, JPanel bookingSummary) {	
+		
+		String cardNum = textField_cardNum.getText();
+		String bnv = textField_BNV.getText();
+		int mm = Integer.parseInt((String) comboBoxMM.getSelectedItem());
+		int yy = Integer.parseInt((String) comboBoxYY.getSelectedItem());
+		String name = textField_name.getText();
+		String surname = textField_surname.getText();
 		
 		try {
 		
 		se.chalmers.cse.mdsd1415.banking.customerRequires.CustomerRequires banking = se.chalmers.cse.mdsd1415.banking.customerRequires.CustomerRequires
 				.instance();
 		
-		if (/*banking.isCreditCardValid(cardNum, bnv, mm, yy, name,
-				surname)*/true) {
+		if (banking.isCreditCardValid(cardNum, bnv, mm, yy, name,
+				surname)) {
 			System.out.println("Valid credit card");
 			JOptionPane.showMessageDialog(null, "Credit card was successfully validated.");
 			//call putData
@@ -222,10 +228,18 @@ public class Booking extends Interface{
 			this.bookingPutCustomerDataSummary(textField_1, textField_2, textField_3, textField_4, textField_5, textField_6, textField_7, textField_8, 
 					table_1, table_2, table_3, bookingNum, textField_name, textField_surname, calendar1, calendar2);
 			
+			bookingSelections.setVisible(false);
+			bookingSearchRes.setVisible(false);
+			bookingCinfo.setVisible(false);
+			bookingSummary.setVisible(true);
+			
+			JOptionPane.showMessageDialog(null, "Booking successful! Please save your booking-number.");
+			
 		} else {
 			System.out.println("Invalid credit card");
 			JOptionPane.showMessageDialog(null, "Credit card was unsuccessfully validated. Please re-enter your card details.");
 			//do nothing
+			
 		}
 				
 		} catch (SOAPException e) {
@@ -234,7 +248,7 @@ public class Booking extends Interface{
 			e.printStackTrace();
 		}
 	}
-	
+	//Record the booking data in database.
 	protected String bookingPutBookingData(JTable table_1, JTable table_2, JTable table_3, JCalendar calendar1, JCalendar calendar2) {
 		
 		SQLconnection c = new SQLconnection();
@@ -247,16 +261,18 @@ public class Booking extends Interface{
 		String RID2 = "";
 		String RID3 = "";
 		
-		Format formatter1 = new SimpleDateFormat("yyyy-MM-dd 01:00:00");
+		Format formatter1 = new SimpleDateFormat("yyyy-MM-dd");
 		String StartDate = formatter1.format(c1);
-		Format formatter2 = new SimpleDateFormat("yyyy-MM-dd 12:00:00");
+		Format formatter2 = new SimpleDateFormat("yyyy-MM-dd");
 		String EndDate = formatter2.format(c2);
 		
 		try{
 						
-			if (table_1.getModel() != null) {
+			if (table_3.getModel().getRowCount() > 0) {
 				
 				RID1 = (table_1.getModel().getValueAt(0,0).toString());
+				RID2 = (table_2.getModel().getValueAt(0,0).toString());
+				RID3 = (table_3.getModel().getValueAt(0,0).toString());
 				
 				String sql = String.format("insert into BookingData (RoomId1,RoomId2,RoomId3,BookingStartDate,BookingEndDate) values "
 						+ "(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")", RID1, RID2, RID3, StartDate, EndDate);
@@ -264,7 +280,7 @@ public class Booking extends Interface{
 				PreparedStatement pst = c.connect.prepareStatement(sql);
 				pst.executeUpdate();
 				
-			} else if (table_2.getModel() != null) {
+			} else if (table_2.getModel().getRowCount() > 0) {
 				
 				RID1 = (table_1.getModel().getValueAt(0,0).toString());
 				RID2 = (table_2.getModel().getValueAt(0,0).toString());
@@ -276,11 +292,9 @@ public class Booking extends Interface{
 				PreparedStatement pst = c.connect.prepareStatement(sql);
 				pst.executeUpdate();
 				
-			} else if (table_3.getModel() != null) {
+			} else if (table_1.getModel().getRowCount() > 0) {
 				
 				RID1 = (table_1.getModel().getValueAt(0,0).toString());
-				RID2 = (table_2.getModel().getValueAt(0,0).toString());
-				RID3 = (table_3.getModel().getValueAt(0,0).toString());
 				
 				String sql = String.format("insert into BookingData (RoomId1,RoomId2,RoomId3,BookingStartDate,BookingEndDate) values "
 						+ "(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")", RID1, RID2, RID3, StartDate, EndDate);
@@ -309,7 +323,7 @@ public class Booking extends Interface{
 		
 		return bookingNum;
 	}
-	
+	//Record the customer tab data in the database.
 	protected void bookingPutCustomerData(JTextField textField_name, JTextField textField_surname, 
 			JTextField textField_cardNum, JTextField textField_BNV, JComboBox comboBoxMM, JComboBox comboBoxYY, String bookingNum) {
 		
@@ -341,7 +355,7 @@ public class Booking extends Interface{
 		}
 		
 	}
-	
+	//Display a summary and the generated booking number.
 	protected void bookingPutCustomerDataSummary(JTextField textField_1, JTextField textField_2, JTextField textField_3, JTextField textField_4, 
 			JTextField textField_5, JTextField textField_6, JTextField textField_7, JTextField textField_8, JTable table_1, JTable table_2, JTable table_3,
 			String bookingNum, JTextField textField_name, JTextField textField_surname, JCalendar calendar1, JCalendar calendar2) {
@@ -361,7 +375,7 @@ public class Booking extends Interface{
 		Format formatter2 = new SimpleDateFormat("yyyy-MM-dd");
 		String EndDate = formatter2.format(c2);
 		
-		if (table_3.getModel() != null) {
+		if (table_3.getModel().getRowCount() > 0) {
 			RID1 = (table_1.getModel().getValueAt(0,1).toString());
 			RID2 = (table_2.getModel().getValueAt(0,1).toString());
 			RID3 = (table_3.getModel().getValueAt(0,1).toString());
@@ -369,14 +383,14 @@ public class Booking extends Interface{
 			textField_4.setText(RID2);
 			textField_5.setText(RID3);
 			
-		} else if (table_2.getModel() != null) {
+		} else if (table_2.getModel().getRowCount() > 0) {
 			
 			RID1 = (table_1.getModel().getValueAt(0,1).toString());
 			RID2 = (table_2.getModel().getValueAt(0,1).toString());
 			textField_3.setText(RID1);
 			textField_4.setText(RID2);
 			
-		} else if (table_1.getModel() != null) {
+		} else if (table_1.getModel().getRowCount() > 0) {
 			
 			RID1 = (table_1.getModel().getValueAt(0,1).toString());
 			textField_3.setText(RID1);

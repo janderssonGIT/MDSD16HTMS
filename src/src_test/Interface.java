@@ -47,7 +47,6 @@ public class Interface {
 	JButton btnEditRooms;
 	JButton btnExit;
 	JButton btnDone2;
-	JButton btnDone3;
 	JButton btnDone4; 
 	JButton btnCreate;
 	JButton btnDelete;
@@ -62,6 +61,9 @@ public class Interface {
 	JButton btnCINCancel;
 	JButton btnCOUTCancel;
 	JButton btnCINcontinue;
+	JButton btnCOUTcontinue;
+	JButton btnCOUT_back;
+	JButton btnNewButton;
 	JTable table;
 	JLabel lblRoomID;
 	JLabel lblRoomI;
@@ -90,7 +92,7 @@ public class Interface {
 	private JPanel bookingSummary;
 	private JTable table_1;
 	String[] roomTypes;
-	private JTextField textField;
+	private JTextField textFieldcapacity;
 	private JTable table_2;
 	private JTable table_3;
 	private JLabel lblSelection;
@@ -98,7 +100,6 @@ public class Interface {
 	private JPanel panelCIN_input;
 	private JPanel panelCIN_confirm;
 	private JPanel panelCOUT_input;
-	private JPanel panelCOUT_summary;
 	private JPanel panelCOUT_payment;
 	protected JTextField textField_name;
 	protected JTextField textField_surname;
@@ -123,13 +124,29 @@ public class Interface {
 	private JTextField rid2;
 	private JTextField rid3;
 	JCheckBox chckbxConfirmCheckin;
+	private JTextField textField_COUTname;
+	private JTextField textField_COUTsurname;
+	private JTextField textField_COUTenddate;
+	private JTextField textField_COUTstartdate;
+	private JTextField textField_COUTrid1;
+	private JTextField textField_COUTrid2;
+	private JTextField textField_COUTrid3;
+	private JTextField textField_COUTcurrentdate;
+	private JTextField textField_COUTcardnum;
+	private JTextField textField_COUTexpmonth;
+	private JTextField textField_COUTexpyear;
+	private JTextField textField_COUTbnv;
+	private JTextField textField_COUTbill;
+	private JTextField textField_COUTnights;
+	private JButton btnCalculate;
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	
 	protected void initializeUI() {
 		frmAlpha = new JFrame();
-		frmAlpha.setTitle("HMS Alpha v0.1");
+		frmAlpha.setResizable(false);
+		frmAlpha.setTitle("HMS Alpha v1.0");
 		frmAlpha.getContentPane().setBackground(Color.LIGHT_GRAY);
 		frmAlpha.setBounds(100, 100, 928, 622);
 		frmAlpha.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -291,7 +308,7 @@ public class Interface {
 		textFieldCOUT.setBounds(246, 46, 86, 20);
 		panelCOUT_input.add(textFieldCOUT);
 		
-		JButton btnCOUTcontinue = new JButton("Continue");
+		btnCOUTcontinue = new JButton("Continue");
 		btnCOUTcontinue.setBounds(652, 516, 89, 23);
 		panelCOUT_input.add(btnCOUTcontinue);
 		
@@ -299,19 +316,176 @@ public class Interface {
 		btnCOUTCancel.setBounds(553, 516, 89, 23);
 		panelCOUT_input.add(btnCOUTCancel);
 		
-		panelCOUT_summary = new JPanel();
-		panelCOUT_summary.setBackground(Color.LIGHT_GRAY);
-		childCheckOut.add(panelCOUT_summary, "name_56455242071996");
-		panelCOUT_summary.setLayout(null);
-		
 		panelCOUT_payment = new JPanel();
 		panelCOUT_payment.setBackground(Color.LIGHT_GRAY);
-		childCheckOut.add(panelCOUT_payment, "name_56514071763250");
+		childCheckOut.add(panelCOUT_payment, "name_56455242071996");
 		panelCOUT_payment.setLayout(null);
 		
-		btnDone3 = new JButton("Done");
-		btnDone3.setBounds(668, 516, 73, 23);
-		panelCOUT_payment.add(btnDone3);
+		JLabel label_4 = new JLabel("Name:");
+		label_4.setBounds(40, 63, 106, 14);
+		panelCOUT_payment.add(label_4);
+		
+		textField_COUTname = new JTextField();
+		textField_COUTname.setEditable(false);
+		textField_COUTname.setColumns(10);
+		textField_COUTname.setBackground(Color.LIGHT_GRAY);
+		textField_COUTname.setBounds(129, 60, 111, 20);
+		panelCOUT_payment.add(textField_COUTname);
+		
+		textField_COUTsurname = new JTextField();
+		textField_COUTsurname.setEditable(false);
+		textField_COUTsurname.setColumns(10);
+		textField_COUTsurname.setBackground(Color.LIGHT_GRAY);
+		textField_COUTsurname.setBounds(129, 85, 111, 20);
+		panelCOUT_payment.add(textField_COUTsurname);
+		
+		JLabel label_7 = new JLabel("Surname:");
+		label_7.setBounds(40, 88, 106, 14);
+		panelCOUT_payment.add(label_7);
+		
+		JLabel lblRoomids = new JLabel("RoomID(s)");
+		lblRoomids.setBounds(40, 152, 106, 14);
+		panelCOUT_payment.add(lblRoomids);
+		
+		JLabel lblBookedAt = new JLabel("Booked at:");
+		lblBookedAt.setBounds(40, 177, 151, 14);
+		panelCOUT_payment.add(lblBookedAt);
+		
+		JLabel lblBookingEnds = new JLabel("Booking ends:");
+		lblBookingEnds.setBounds(40, 202, 106, 14);
+		panelCOUT_payment.add(lblBookingEnds);
+		
+		textField_COUTenddate = new JTextField();
+		textField_COUTenddate.setEditable(false);
+		textField_COUTenddate.setColumns(10);
+		textField_COUTenddate.setBackground(Color.LIGHT_GRAY);
+		textField_COUTenddate.setBounds(129, 199, 125, 20);
+		panelCOUT_payment.add(textField_COUTenddate);
+		
+		textField_COUTstartdate = new JTextField();
+		textField_COUTstartdate.setEditable(false);
+		textField_COUTstartdate.setColumns(10);
+		textField_COUTstartdate.setBackground(Color.LIGHT_GRAY);
+		textField_COUTstartdate.setBounds(129, 174, 125, 20);
+		panelCOUT_payment.add(textField_COUTstartdate);
+		
+		textField_COUTrid1 = new JTextField();
+		textField_COUTrid1.setEditable(false);
+		textField_COUTrid1.setColumns(10);
+		textField_COUTrid1.setBackground(Color.LIGHT_GRAY);
+		textField_COUTrid1.setBounds(129, 146, 39, 20);
+		panelCOUT_payment.add(textField_COUTrid1);
+		
+		textField_COUTrid2 = new JTextField();
+		textField_COUTrid2.setEditable(false);
+		textField_COUTrid2.setColumns(10);
+		textField_COUTrid2.setBackground(Color.LIGHT_GRAY);
+		textField_COUTrid2.setBounds(178, 146, 39, 20);
+		panelCOUT_payment.add(textField_COUTrid2);
+		
+		textField_COUTrid3 = new JTextField();
+		textField_COUTrid3.setEditable(false);
+		textField_COUTrid3.setColumns(10);
+		textField_COUTrid3.setBackground(Color.LIGHT_GRAY);
+		textField_COUTrid3.setBounds(227, 146, 39, 20);
+		panelCOUT_payment.add(textField_COUTrid3);
+		
+		btnNewButton = new JButton("Process payment");
+		btnNewButton.setBounds(602, 516, 139, 23);
+		panelCOUT_payment.add(btnNewButton);
+		
+		btnCOUT_back = new JButton("Back");
+		btnCOUT_back.setBounds(503, 516, 89, 23);
+		panelCOUT_payment.add(btnCOUT_back);
+		
+		textField_COUTcurrentdate = new JTextField();
+		textField_COUTcurrentdate.setColumns(10);
+		textField_COUTcurrentdate.setBackground(Color.WHITE);
+		textField_COUTcurrentdate.setBounds(175, 248, 111, 20);
+		panelCOUT_payment.add(textField_COUTcurrentdate);
+		
+		JLabel lblCurrentDate = new JLabel("Enter current date:");
+		lblCurrentDate.setBounds(40, 253, 118, 14);
+		panelCOUT_payment.add(lblCurrentDate);
+		
+		JLabel lblCardNumber_1 = new JLabel("Card number:");
+		lblCardNumber_1.setBounds(422, 74, 98, 14);
+		panelCOUT_payment.add(lblCardNumber_1);
+		
+		JLabel lblExpiringMonth = new JLabel("Expiring month:");
+		lblExpiringMonth.setBounds(422, 99, 98, 14);
+		panelCOUT_payment.add(lblExpiringMonth);
+		
+		JLabel lblExpiringYear = new JLabel("Expiring year:");
+		lblExpiringYear.setBounds(422, 124, 98, 14);
+		panelCOUT_payment.add(lblExpiringYear);
+		
+		JLabel lblBnvNumber_1 = new JLabel("BNV number:");
+		lblBnvNumber_1.setBounds(422, 149, 98, 14);
+		panelCOUT_payment.add(lblBnvNumber_1);
+		
+		textField_COUTcardnum = new JTextField();
+		textField_COUTcardnum.setBackground(Color.LIGHT_GRAY);
+		textField_COUTcardnum.setEditable(false);
+		textField_COUTcardnum.setBounds(530, 71, 118, 20);
+		panelCOUT_payment.add(textField_COUTcardnum);
+		textField_COUTcardnum.setColumns(10);
+		
+		textField_COUTexpmonth = new JTextField();
+		textField_COUTexpmonth.setEditable(false);
+		textField_COUTexpmonth.setColumns(10);
+		textField_COUTexpmonth.setBackground(Color.LIGHT_GRAY);
+		textField_COUTexpmonth.setBounds(530, 96, 52, 20);
+		panelCOUT_payment.add(textField_COUTexpmonth);
+		
+		textField_COUTexpyear = new JTextField();
+		textField_COUTexpyear.setEditable(false);
+		textField_COUTexpyear.setColumns(10);
+		textField_COUTexpyear.setBackground(Color.LIGHT_GRAY);
+		textField_COUTexpyear.setBounds(530, 121, 52, 20);
+		panelCOUT_payment.add(textField_COUTexpyear);
+		
+		textField_COUTbnv = new JTextField();
+		textField_COUTbnv.setEditable(false);
+		textField_COUTbnv.setColumns(10);
+		textField_COUTbnv.setBackground(Color.LIGHT_GRAY);
+		textField_COUTbnv.setBounds(530, 146, 39, 20);
+		panelCOUT_payment.add(textField_COUTbnv);
+		
+		JLabel lblTotalBill = new JLabel("Total Bill:");
+		lblTotalBill.setBounds(40, 422, 69, 14);
+		panelCOUT_payment.add(lblTotalBill);
+		
+		textField_COUTbill = new JTextField();
+		textField_COUTbill.setEditable(false);
+		textField_COUTbill.setColumns(10);
+		textField_COUTbill.setBackground(SystemColor.activeCaption);
+		textField_COUTbill.setBounds(119, 419, 72, 20);
+		panelCOUT_payment.add(textField_COUTbill);
+		
+		JLabel lblAmountOfNight = new JLabel("Amount of nights:");
+		lblAmountOfNight.setBounds(40, 387, 106, 14);
+		panelCOUT_payment.add(lblAmountOfNight);
+		
+		textField_COUTnights = new JTextField();
+		textField_COUTnights.setEditable(false);
+		textField_COUTnights.setColumns(10);
+		textField_COUTnights.setBackground(Color.LIGHT_GRAY);
+		textField_COUTnights.setBounds(152, 384, 39, 20);
+		panelCOUT_payment.add(textField_COUTnights);
+		
+		JLabel lblCustomerBillingInformation = new JLabel("Customer billing information");
+		lblCustomerBillingInformation.setFont(new Font("Tahoma", Font.ITALIC, 13));
+		lblCustomerBillingInformation.setBounds(40, 11, 191, 23);
+		panelCOUT_payment.add(lblCustomerBillingInformation);
+		
+		btnCalculate = new JButton("Calculate price");
+		btnCalculate.setBounds(175, 279, 125, 23);
+		panelCOUT_payment.add(btnCalculate);
+		
+		JLabel lblyyyymmdd = new JLabel("(YYYY-MM-DD)");
+		lblyyyymmdd.setBounds(296, 251, 98, 14);
+		panelCOUT_payment.add(lblyyyymmdd);
 		childCheckOut.setVisible(false);
 		
 		childEditRooms = new JPanel();
@@ -399,10 +573,10 @@ public class Interface {
 		lblCapacity.setBounds(16, 165, 95, 14);
 		panelAddRooms.add(lblCapacity);
 		
-		textField = new JTextField();
-		textField.setBounds(182, 162, 35, 20);
-		panelAddRooms.add(textField);
-		textField.setColumns(10);
+		textFieldcapacity = new JTextField();
+		textFieldcapacity.setBounds(182, 162, 35, 20);
+		panelAddRooms.add(textFieldcapacity);
+		textFieldcapacity.setColumns(10);
 		
 		JLabel lblinteger = new JLabel("(ex: 3)");
 		lblinteger.setForeground(Color.GRAY);
@@ -782,7 +956,7 @@ public class Interface {
 			public void mouseClicked(MouseEvent arg0) {
 				
 				Room r = new Room();
-				r.editRoom(table, textID, textFloor, textPrice, comboRoomType, roomTypes, chckbxStatus);
+				r.editRoom(table, textID, textFloor, textPrice, comboRoomType, roomTypes, chckbxStatus, textFieldcapacity);
 			    
 			}});	
 		//Delete Room
@@ -799,7 +973,7 @@ public class Interface {
 			public void actionPerformed(ActionEvent arg0) {			
 				
 				Room r = new Room();
-				r.addRoom(table, textID, textFloor, textPrice, comboRoomType, chckbxStatus);
+				r.addRoom(table, textID, textFloor, textPrice, comboRoomType, chckbxStatus, textFieldcapacity);
 				r.showValues(table);
 			}
 		});
@@ -808,7 +982,7 @@ public class Interface {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				Room r = new Room();
-				r.updateRoom(table, textID, textFloor, textPrice, comboRoomType, chckbxStatus);
+				r.updateRoom(table, textID, textFloor, textPrice, comboRoomType, chckbxStatus, textFieldcapacity);
 				r.showValues(table);
 			}
 		});
@@ -846,18 +1020,6 @@ public class Interface {
 		
 				}	
 			
-		});
-		//Done - Check Out (Returns to Main menu)
-		btnDone3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnEditRooms.setEnabled(true);
-				btnCheckIn.setEnabled(true);
-				btnCheckOut.setEnabled(true);
-				btnBooking.setEnabled(true);
-				childBegin.setVisible(true);
-				btnExit.setEnabled(true);
-				childCheckOut.setVisible(false);
-			}
 		});
 		//Done - Edit Rooms (Returns to Main menu)
 		btnDone4.addActionListener(new ActionListener() {
@@ -980,14 +1142,10 @@ public class Interface {
 				
 				Booking b = new Booking();
 				b.bookingValidate(table_1, table_2, table_3, calendar1, calendar2, textField_name, textField_surname, textField_cardNum, 
-						textField_BNV, comboBoxMM, comboBoxYY, textField_1, textField_2, textField_3, textField_4, textField_5, textField_6, textField_7, textField_8);
+						textField_BNV, comboBoxMM, comboBoxYY, textField_1, textField_2, textField_3, textField_4, textField_5, textField_6, textField_7, textField_8,
+						bookingSelections, bookingSearchRes, bookingCinfo, bookingSummary);
 				
-				bookingSelections.setVisible(false);
-				bookingSearchRes.setVisible(false);
-				bookingCinfo.setVisible(false);
-				bookingSummary.setVisible(true);
 				
-				JOptionPane.showMessageDialog(null, "Booking successful! Please save your booking-number.");
 				
 			}
 		});		
@@ -1000,6 +1158,10 @@ public class Interface {
 				childBegin.setVisible(true);
 				btnExit.setEnabled(true);
 				childBooking.setVisible(false);
+				bookingSelections.setVisible(true);
+				bookingSearchRes.setVisible(false);
+				bookingCinfo.setVisible(false);
+				bookingSummary.setVisible(false);
 			}
 		});
 		
@@ -1053,8 +1215,7 @@ public class Interface {
 				panelCIN_confirm.setVisible(false);
 				
 				CheckIn ci = new CheckIn();
-				ci.confirmCheckIn(textFieldCIN, chckbxConfirmCheckin);
-				
+				ci.confirmCheckIn(textFieldCIN, chckbxConfirmCheckin);				
 			}
 		});
 
@@ -1072,6 +1233,48 @@ public class Interface {
 				childCheckOut.setVisible(false);
 			}
 		});		
+		//Retrieve customer information
+		btnCOUTcontinue.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			CheckOut co = new CheckOut();
+			co.getCheckOutData(textFieldCOUT, textField_COUTname, textField_COUTsurname, textField_COUTrid1, textField_COUTrid2, textField_COUTrid3, textField_COUTstartdate, 
+					textField_COUTenddate, panelCOUT_input, panelCOUT_payment, textField_COUTcardnum, textField_COUTexpmonth, textField_COUTexpyear, textField_COUTbnv);			
+			}
+		});
+		//Return to previous page
+		btnCOUT_back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panelCOUT_payment.setVisible(false);
+				panelCOUT_input.setVisible(true);
+			}
+		});
+		
+		btnCalculate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				CheckOut co = new CheckOut();
+				
+				String startDate = textField_COUTstartdate.getText();
+				String endDate = textField_COUTcurrentdate.getText();
+				
+				int value = co.daysBetween(startDate, endDate);
+				
+				Double price = co.calculatePrice(value, textField_COUTrid1, textField_COUTrid2, textField_COUTrid3);
+				textField_COUTnights.setText(Integer.toString(value));
+				textField_COUTbill.setText(price.toString());
+			}
+		});
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String price = textField_COUTbill.getText();
+				CheckOut co = new CheckOut();
+				co.makePayment(textFieldCOUT, price);
+				
+			}
+		});
 
 	}
 }

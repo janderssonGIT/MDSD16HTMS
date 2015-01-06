@@ -12,11 +12,6 @@ import net.proteanit.sql.DbUtils;
 
 public class Room extends Interface {
 	
-	private int RoomID;
-	private int Floor;
-	private String RoomType;
-	private int RoomPrice;
-	private String Status;
 	private ResultSet rsq;
 
 	public ResultSet getRsq() {
@@ -25,51 +20,13 @@ public class Room extends Interface {
 	public void setRsq(ResultSet rsq) {
 		this.rsq = rsq;
 	}
-	public String getStatus() {
-		return Status;
-	}
-	public void setStatus(String status) {
-		Status = status;
-	}
-	public int getRoomID() {
-		return RoomID;
-	}
-	public void setRoomID(int roomID) {
-		RoomID = roomID;
-	}
-	public int getFloor() {
-		return Floor;
-	}
-	public void setFloor(int floor) {
-		Floor = floor;
-	}
-	public String getRoomType() {
-		return RoomType;
-	}
-	public void setRoomType(String roomType) {
-		RoomType = roomType;
-	}
-	public int getRoomPrice() {
-		return RoomPrice;
-	}
-	public void setRoomPrice(int roomPrice) {
-		RoomPrice = roomPrice;
-	}
-
-	protected Room(int roomID, int floor, String roomType, int roomPrice,
-			String status) {
-		super();
-		RoomID = roomID;
-		Floor = floor;
-		RoomType = roomType;
-		RoomPrice = roomPrice;
-		Status = status;		
 		
-	}
 	protected Room() {
 		
 	}
-	protected void editRoom(JTable table, JTextField textID, JTextField textFloor, JTextField textPrice, JComboBox<String[]> comboRoomType, String[] roomTypes, JCheckBox chckbxStatus) {
+	//Load the existing table for rooms from the database.
+	protected void editRoom(JTable table, JTextField textID, JTextField textFloor, JTextField textPrice, JComboBox<String[]> comboRoomType, String[] roomTypes,
+			JCheckBox chckbxStatus, JTextField textFieldcapacity) {
 		
 		//Read the info from the JTable
 	    int row = table.getSelectedRow();
@@ -78,11 +35,13 @@ public class Room extends Interface {
 	    String floor = (table.getModel().getValueAt(row,1).toString());
 	    String price = (table.getModel().getValueAt(row,3).toString());
 	    String status = (table.getModel().getValueAt(row, 2).toString());
+	    String capacity = (table.getModel().getValueAt(row,5).toString());
 	    
 	    //SET THE VALUES TO THE TEXTFIELDS
 	    textID.setText(roomId);
 	    textFloor.setText(floor);
-	    textPrice.setText(price);		    
+	    textPrice.setText(price);	
+	    textFieldcapacity.setText(capacity);
 
 	    if (roomType.equals("Single")) {
 	    		comboRoomType.getModel().setSelectedItem(roomTypes[0]);
@@ -105,18 +64,20 @@ public class Room extends Interface {
 	    }
 		
 	}
-			
-	protected void addRoom(JTable table, JTextField textID, JTextField textFloor, JTextField textPrice, JComboBox<String[]> comboRoomType, JCheckBox chckbxStatus) {
+	//Method for adding a room using swing components as arguments.	
+	protected void addRoom(JTable table, JTextField textID, JTextField textFloor, JTextField textPrice, JComboBox<String[]> comboRoomType, JCheckBox chckbxStatus, 
+			JTextField textFieldcapacity) {
 		
 		String roomID = textID.getText();
 	    String floor = textFloor.getText();
 	    String price = textPrice.getText();
 	    String roomTypes = (String) comboRoomType.getSelectedItem();
+	    String capacity = textFieldcapacity.getText();
 		
 	    SQLconnection c = new SQLconnection();
 		c.StartConnection();
 		
-		String sql = String.format("INSERT INTO RoomData(RoomID, Floor, Status, RoomPrice, RoomType) VALUES(%s, %s, \"false\", %s, \"%s\")", roomID, floor, price, roomTypes);
+		String sql = String.format("INSERT INTO RoomData(RoomID, Floor, Status, RoomPrice, RoomType, Capacity) VALUES(%s, %s, \"false\", %s, \"%s\", %s)", roomID, floor, price, roomTypes, capacity);
 			
 		try{
 		      PreparedStatement pst=c.connect.prepareStatement(sql);
@@ -133,18 +94,20 @@ public class Room extends Interface {
 	     }
 		
 	}
-	
-	protected void updateRoom(JTable table, JTextField textID, JTextField textFloor, JTextField textPrice, JComboBox<String[]> comboRoomType, JCheckBox chckbxStatus) {
+	//Method for update the values of a room using swing components as arguments.	
+	protected void updateRoom(JTable table, JTextField textID, JTextField textFloor, JTextField textPrice, JComboBox<String[]> comboRoomType, JCheckBox chckbxStatus,
+			JTextField textFieldcapacity) {
 		
 		String roomID = textID.getText();
 	    String floor = textFloor.getText();
 	    String price = textPrice.getText();
 	    String roomTypes = (String) comboRoomType.getSelectedItem();
+	    String capacity = textFieldcapacity.getText();
 		
 	    SQLconnection c = new SQLconnection();
 		c.StartConnection();
 		
-		String sql = String.format("update RoomData set Floor = %s, RoomPrice = %s, RoomType = \"%s\" where RoomId = %s", floor, price, roomTypes, roomID);
+		String sql = String.format("update RoomData set Floor = %s, RoomPrice = %s, RoomType = \"%s\", Capacity = \"%s\" where RoomId = %s", floor, price, roomTypes, roomID, capacity);
 		
 		try{
 		      PreparedStatement pst=c.connect.prepareStatement(sql);
@@ -159,7 +122,7 @@ public class Room extends Interface {
 	    	 c.endConnection(); 
 	     }
 	}
-	
+	//Method for deleting a room.
 	protected void deleteRoom(JTable table) {
 		
 		 int row = table.getSelectedRow();
@@ -184,7 +147,7 @@ public class Room extends Interface {
      }
 		
 	}
-	
+	//Method for displaying the room information from the JTable in the swing components.
 	protected void showValues(JTable table){	    
 		 	
 				SQLconnection c = new SQLconnection();
