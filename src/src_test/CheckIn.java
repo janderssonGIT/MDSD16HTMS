@@ -10,20 +10,11 @@ import javax.swing.JTextField;
 
 public class CheckIn extends Interface {
 	
-	private ResultSet rsq;
-
-	public ResultSet getRsq() {
-		return rsq;
-	}
-	public void setRsq(ResultSet rsq) {
-		this.rsq = rsq;
-	}
-	
 	public CheckIn() {
 		
 	}
 	//Retrieve customer data for check-in using a booking-number.
-	public void getCheckInData(JTextField textFieldCIN, JTextField ConfirmName, JTextField ConfirmSurName, JTextField rid1, JTextField rid2, JTextField rid3,
+	protected void getCheckInData(JTextField textFieldCIN, JTextField ConfirmName, JTextField ConfirmSurName, JTextField rid1, JTextField rid2, JTextField rid3,
 			JTextField ConfirmStartDate, JTextField ConfirmEndDate, JPanel panelCIN_input, JPanel panelCIN_confirm) {
 		
 		SQLconnection c = new SQLconnection();
@@ -37,7 +28,7 @@ public class CheckIn extends Interface {
 				
 			String bookingInfoSql = String.format("select * from BookingData where BookingNum = %s", bookingNum);		
 			PreparedStatement sql = c.connect.prepareStatement(bookingInfoSql);
-			rsq = sql.executeQuery();
+			ResultSet rsq = sql.executeQuery();
 		
 			String startDate = rsq.getString("BookingStartDate");
 			ConfirmStartDate.setText(startDate);
@@ -80,7 +71,7 @@ public class CheckIn extends Interface {
 		
 	}
 	//Confirm the checkin and set the occupied status of room(s) to 'true' and set the checked in status of the customer to 'true'.
-	public void confirmCheckIn(JTextField textFieldCIN, JCheckBox chckbxConfirmCheckIn) {
+	protected void confirmCheckIn(JTextField textFieldCIN, JCheckBox chckbxConfirmCheckIn) {
 		
 		SQLconnection c = new SQLconnection();
 		c.StartConnection();

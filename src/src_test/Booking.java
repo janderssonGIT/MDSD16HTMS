@@ -22,21 +22,12 @@ import net.proteanit.sql.DbUtils;
 import com.toedter.calendar.JCalendar;
 
 public class Booking extends Interface{
-	
-	private ResultSet rsq;
-
-	public ResultSet getRsq() {
-		return rsq;
-	}
-	public void setRsq(ResultSet rsq) {
-		this.rsq = rsq;
-	}
 
 	public Booking() {
 		
 	}
 	//Method for enabling Roomtype comboboxes based on the input of a combobox representing the number of rooms.
-	public void setNumOfRooms(JComboBox comboBoxBookNumRooms, JComboBox comboBoxRI, JComboBox comboBoxRII, JComboBox comboBoxRIII, JLabel lblRoomI, JLabel lblRoomII, JLabel lblRoomIII) {
+	protected void setNumOfRooms(JComboBox comboBoxBookNumRooms, JComboBox comboBoxRI, JComboBox comboBoxRII, JComboBox comboBoxRIII, JLabel lblRoomI, JLabel lblRoomII, JLabel lblRoomIII) {
 		
 		String cbv = (String) comboBoxBookNumRooms.getSelectedItem();
 		
@@ -68,7 +59,7 @@ public class Booking extends Interface{
 		}
 	}
 	//Displays the JCalendar Date() values from both calendars in string format in the lower textfields.
-	public void showDates(JCalendar calendar1, JCalendar calendar2, JTextPane textPaneDate1, JTextPane textPaneDate2) {
+	protected void showDates(JCalendar calendar1, JCalendar calendar2, JTextPane textPaneDate1, JTextPane textPaneDate2) {
 		
 		Date c1 = calendar1.getDate();
 		Date c2 = calendar2.getDate();
@@ -82,7 +73,7 @@ public class Booking extends Interface{
 		textPaneDate2.setText(s2);		
 	}
 	//Method for querying the database for unique room(s) of a set roomtype between the set start -and end date.
-	public boolean searchRooms(JCalendar calendar1, JCalendar calendar2, JComboBox comboBoxBookNumRooms, JComboBox comboBoxRI, JComboBox comboBoxRII, JComboBox comboBoxRIII) {
+	protected boolean searchRooms(JCalendar calendar1, JCalendar calendar2, JComboBox comboBoxBookNumRooms, JComboBox comboBoxRI, JComboBox comboBoxRII, JComboBox comboBoxRIII) {
 		
 		Date c1 = calendar1.getDate();
 		Date c2 = calendar2.getDate();
@@ -105,7 +96,7 @@ public class Booking extends Interface{
 		
 	}
 	//Method for displaying the search results in JTables.
-	public void showResult(JTable table_1, JTable table_2, JTable table_3, JCalendar calendar1, JCalendar calendar2, JComboBox comboBoxRI, JComboBox comboBoxRII, JComboBox comboBoxRIII, 
+	protected void showResult(JTable table_1, JTable table_2, JTable table_3, JCalendar calendar1, JCalendar calendar2, JComboBox comboBoxRI, JComboBox comboBoxRII, JComboBox comboBoxRIII, 
 			JPanel bookingSelections, JPanel bookingSearchRes, JPanel bookingCinfo, JPanel bookingSummary){	    
 		
 			SQLconnection c = new SQLconnection();
@@ -130,7 +121,7 @@ public class Booking extends Interface{
 			String sql1 = String.format(querystring, s1, EndDate, StartDate);	
 			System.out.println(sql1);
 			PreparedStatement pst1=c.connect.prepareStatement(sql1);
-			rsq=pst1.executeQuery();	
+			ResultSet rsq=pst1.executeQuery();	
 			table_1.setModel(DbUtils.resultSetToTableModel(rsq));
 			table_1.getColumnModel().getColumn(0).setMinWidth(0);
 			table_1.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -139,7 +130,7 @@ public class Booking extends Interface{
 				String s2 = (String) comboBoxRII.getSelectedItem();
 				String sql2 = String.format(querystring, s2, EndDate, StartDate);
 				PreparedStatement pst2=c.connect.prepareStatement(sql2);
-				rsq=pst2.executeQuery();	
+				rsq = pst2.executeQuery();	
 				table_2.setModel(DbUtils.resultSetToTableModel(rsq));
 				table_2.getColumnModel().getColumn(0).setMinWidth(0);
 				table_2.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -148,7 +139,7 @@ public class Booking extends Interface{
 				String s3 = (String) comboBoxRIII.getSelectedItem();
 				String sql3 = String.format(querystring, s3, EndDate, StartDate);
 				PreparedStatement pst3=c.connect.prepareStatement(sql3);
-				rsq=pst3.executeQuery();	
+				rsq = pst3.executeQuery();	
 				table_3.setModel(DbUtils.resultSetToTableModel(rsq));
 				table_3.getColumnModel().getColumn(0).setMinWidth(0);
 				table_3.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -178,7 +169,7 @@ public class Booking extends Interface{
 
 	}
 	//Simple method for switching panels through a confirmation dialog.
-	public void confirmRooms(JPanel bookingSelections, JPanel bookingSearchRes, JPanel bookingCinfo, JPanel bookingSummary) {
+	protected void confirmRooms(JPanel bookingSelections, JPanel bookingSearchRes, JPanel bookingCinfo, JPanel bookingSummary) {
 		
 		int result = JOptionPane.showOptionDialog(null, "Do you wish to confirm the selected rooms?", "Confirm Booking.", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 

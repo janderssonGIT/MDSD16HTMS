@@ -14,20 +14,11 @@ import javax.xml.soap.SOAPException;
 
 public class CheckOut {
 	
-	private ResultSet rsq;
-
-	public ResultSet getRsq() {
-		return rsq;
-	}
-	public void setRsq(ResultSet rsq) {
-		this.rsq = rsq;
-	}
-	
 	public CheckOut() {
 		
 	}
 	//Retrieve customer information.
-	public void getCheckOutData(JTextField textFieldCOUT, JTextField textField_COUTname, JTextField textField_COUTsurname, JTextField textField_COUTrid1, JTextField 
+	protected void getCheckOutData(JTextField textFieldCOUT, JTextField textField_COUTname, JTextField textField_COUTsurname, JTextField textField_COUTrid1, JTextField 
 			textField_COUTrid2, JTextField textField_COUTrid3,JTextField textField_COUTstartdate, JTextField textField_COUTenddate, JPanel panelCOUT_input, 
 			JPanel panelCOUT_payment, JTextField textField_COUTcardnum,JTextField textField_COUTexpmonth, JTextField textField_COUTexpyear, JTextField textField_COUTbnv) {
 		
@@ -43,7 +34,7 @@ public class CheckOut {
 				
 				String checkCheckedIn = String.format("select IsCheckedIn from TabData where BookingNum = \"%s\"", bookingNum);
 				PreparedStatement sql = c.connect.prepareStatement(checkCheckedIn);
-				rsq = sql.executeQuery();
+				ResultSet rsq = sql.executeQuery();
 				
 			if (!rsq.isClosed()) {
 									
@@ -120,7 +111,7 @@ public class CheckOut {
 		
 	}
 	//Retrieve number of nights stayed.
-	public int daysBetween(String startDate, String endDate) {
+	protected int daysBetween(String startDate, String endDate) {
 		
         Calendar start = Calendar.getInstance();
         Calendar end = Calendar.getInstance();
@@ -145,7 +136,7 @@ public class CheckOut {
         return daysBetween;
     }
 	//Calculate price based on the number of nights stayed, and the prices of the booked rooms.
-	public double calculatePrice(int value, JTextField textField_COUTrid1, JTextField textField_COUTrid2, JTextField textField_COUTrid3) {
+	protected double calculatePrice(int value, JTextField textField_COUTrid1, JTextField textField_COUTrid2, JTextField textField_COUTrid3) {
 		
 		SQLconnection c = new SQLconnection();
 		c.StartConnection();
@@ -163,7 +154,7 @@ public class CheckOut {
 			
 			String RoomPriceSQL1 = String.format("select RoomPrice from RoomData where RoomId = %s", stringrid1);
 			PreparedStatement sql1 = c.connect.prepareStatement(RoomPriceSQL1);
-			rsq = sql1.executeQuery();
+			ResultSet rsq = sql1.executeQuery();
 			rid1 = rsq.getDouble("RoomPrice");
 			
 			if (!stringrid2.equals("")) {
@@ -197,7 +188,7 @@ public class CheckOut {
 		
 	}
 	//Process payment
-	public void makePayment(JTextField textFieldCOUT, String price) {
+	protected void makePayment(JTextField textFieldCOUT, String price) {
 		
 		SQLconnection c = new SQLconnection();
 		c.StartConnection();
@@ -218,7 +209,7 @@ public class CheckOut {
 			
 			String bookingInfoSql2 = String.format("select * from TabData where BookingNum = %s", bookingNum);			
 			PreparedStatement sql2 = c.connect.prepareStatement(bookingInfoSql2);
-			rsq = sql2.executeQuery();
+			ResultSet rsq = sql2.executeQuery();
 			
 			name = rsq.getString("Name");			
 			surname = rsq.getString("SurName");			

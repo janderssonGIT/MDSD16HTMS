@@ -11,15 +11,6 @@ import javax.swing.JTextField;
 import net.proteanit.sql.DbUtils;
 
 public class Room extends Interface {
-	
-	private ResultSet rsq;
-
-	public ResultSet getRsq() {
-		return rsq;
-	}
-	public void setRsq(ResultSet rsq) {
-		this.rsq = rsq;
-	}
 		
 	protected Room() {
 		
@@ -80,7 +71,7 @@ public class Room extends Interface {
 		String sql = String.format("INSERT INTO RoomData(RoomID, Floor, Status, RoomPrice, RoomType, Capacity) VALUES(%s, %s, \"false\", %s, \"%s\", %s)", roomID, floor, price, roomTypes, capacity);
 			
 		try{
-		      PreparedStatement pst=c.connect.prepareStatement(sql);
+		      PreparedStatement pst = c.connect.prepareStatement(sql);
 		       pst.executeUpdate();	
 		           
 		      }
@@ -156,8 +147,9 @@ public class Room extends Interface {
 		      String sql = "SELECT * FROM ROOMDATA;";
 		      try{
 		      PreparedStatement pst=c.connect.prepareStatement(sql);
-		    
-		       rsq=pst.executeQuery();	
+		      
+		      
+		       ResultSet rsq = pst.executeQuery();	
 		       table.setModel(DbUtils.resultSetToTableModel(rsq));
 		      }
 		      catch(Exception exr){
