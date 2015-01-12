@@ -139,6 +139,9 @@ public class Interface {
 	protected JTextField textField_COUTbill;
 	protected JTextField textField_COUTnights;
 	protected JButton btnCalculate;
+	private JTextField textFieldBookingNights;
+	private JTextField textFieldBookingNights2;
+	private JTextField textField_9;
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -694,18 +697,31 @@ public class Interface {
 		bookingSelections.add(comboBoxRIII);
 		
 		textPaneDate1 = new JTextPane();
+		textPaneDate1.setBackground(Color.LIGHT_GRAY);
 		textPaneDate1.setEditable(false);
-		textPaneDate1.setBounds(92, 186, 116, 20);
+		textPaneDate1.setBounds(71, 188, 116, 20);
 		bookingSelections.add(textPaneDate1);
 		
 		textPaneDate2 = new JTextPane();
+		textPaneDate2.setBackground(Color.LIGHT_GRAY);
 		textPaneDate2.setEditable(false);
-		textPaneDate2.setBounds(322, 186, 116, 20);
+		textPaneDate2.setBounds(294, 188, 116, 20);
 		bookingSelections.add(textPaneDate2);
 		
 		lblSelection = new JLabel("Selections - 1/4");
 		lblSelection.setBounds(10, 526, 89, 14);
 		bookingSelections.add(lblSelection);
+		
+		textFieldBookingNights = new JTextField();
+		textFieldBookingNights.setBackground(Color.LIGHT_GRAY);
+		textFieldBookingNights.setBounds(54, 214, 23, 20);
+		bookingSelections.add(textFieldBookingNights);
+		textFieldBookingNights.setColumns(10);
+		
+		JLabel lblNights = new JLabel("Nights:");
+		lblNights.setForeground(Color.DARK_GRAY);
+		lblNights.setBounds(10, 217, 79, 14);
+		bookingSelections.add(lblNights);
 		
 		bookingSearchRes = new JPanel();
 		bookingSearchRes.setBackground(Color.LIGHT_GRAY);
@@ -864,7 +880,7 @@ public class Interface {
 		textField_1 = new JTextField();
 		textField_1.setEditable(false);
 		textField_1.setBackground(Color.LIGHT_GRAY);
-		textField_1.setBounds(138, 60, 111, 20);
+		textField_1.setBounds(86, 60, 111, 20);
 		bookingSummary.add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -872,42 +888,42 @@ public class Interface {
 		textField_2.setEditable(false);
 		textField_2.setBackground(Color.LIGHT_GRAY);
 		textField_2.setColumns(10);
-		textField_2.setBounds(138, 85, 111, 20);
+		textField_2.setBounds(86, 85, 111, 20);
 		bookingSummary.add(textField_2);
 		
 		textField_3 = new JTextField();
 		textField_3.setEditable(false);
 		textField_3.setBackground(Color.LIGHT_GRAY);
 		textField_3.setColumns(10);
-		textField_3.setBounds(137, 168, 86, 20);
+		textField_3.setBounds(88, 170, 86, 20);
 		bookingSummary.add(textField_3);
 		
 		textField_4 = new JTextField();
 		textField_4.setEditable(false);
 		textField_4.setBackground(Color.LIGHT_GRAY);
 		textField_4.setColumns(10);
-		textField_4.setBounds(233, 168, 86, 20);
+		textField_4.setBounds(184, 170, 86, 20);
 		bookingSummary.add(textField_4);
 		
 		textField_5 = new JTextField();
 		textField_5.setEditable(false);
 		textField_5.setBackground(Color.LIGHT_GRAY);
 		textField_5.setColumns(10);
-		textField_5.setBounds(329, 168, 86, 20);
+		textField_5.setBounds(280, 170, 86, 20);
 		bookingSummary.add(textField_5);
 		
 		textField_6 = new JTextField();
 		textField_6.setEditable(false);
 		textField_6.setBackground(Color.LIGHT_GRAY);
 		textField_6.setColumns(10);
-		textField_6.setBounds(138, 199, 145, 20);
+		textField_6.setBounds(73, 195, 107, 20);
 		bookingSummary.add(textField_6);
 		
 		textField_7 = new JTextField();
 		textField_7.setEditable(false);
 		textField_7.setBackground(Color.LIGHT_GRAY);
 		textField_7.setColumns(10);
-		textField_7.setBounds(138, 224, 145, 20);
+		textField_7.setBounds(73, 218, 107, 20);
 		bookingSummary.add(textField_7);
 		
 		textField_8 = new JTextField();
@@ -920,6 +936,32 @@ public class Interface {
 		JLabel lblThisIsYour = new JLabel("This is your booking number, please save it:");
 		lblThisIsYour.setBounds(70, 400, 249, 14);
 		bookingSummary.add(lblThisIsYour);
+		
+		JLabel labelNights = new JLabel("Number of nights:");
+		labelNights.setBounds(10, 274, 122, 14);
+		bookingSummary.add(labelNights);
+		
+		textFieldBookingNights2 = new JTextField();
+		textFieldBookingNights2.setEditable(false);
+		textFieldBookingNights2.setColumns(10);
+		textFieldBookingNights2.setBackground(Color.LIGHT_GRAY);
+		textFieldBookingNights2.setBounds(112, 269, 34, 20);
+		bookingSummary.add(textFieldBookingNights2);
+		
+		JLabel lblCalculatedPrice = new JLabel("Calculated price:");
+		lblCalculatedPrice.setBounds(10, 299, 106, 14);
+		bookingSummary.add(lblCalculatedPrice);
+		
+		textField_9 = new JTextField();
+		textField_9.setEditable(false);
+		textField_9.setColumns(10);
+		textField_9.setBackground(Color.LIGHT_GRAY);
+		textField_9.setBounds(112, 293, 57, 20);
+		bookingSummary.add(textField_9);
+		
+		JLabel lblSek = new JLabel("SEK");
+		lblSek.setBounds(174, 299, 46, 14);
+		bookingSummary.add(lblSek);
 		childCheckIn.setVisible(false);		
 		childCheckOut.setVisible(false);
 		
@@ -1093,20 +1135,29 @@ public class Interface {
 				
 			}
 		});		
-		//Update selected date of JCalendar#1
+		//Update selected date and number of nights of JCalendars when selecting date in calendar 1#
 		calendar1.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent arg0) {
 				
 				Booking b = new Booking();
 				b.showDates(calendar1, calendar2, textPaneDate1, textPaneDate2);
+	
+				int nights = b.nightsBetween(calendar1, calendar2);
+				textFieldBookingNights.setText(Integer.toString(nights));
+				textFieldBookingNights2.setText(Integer.toString(nights));
+				
 			}
 		});
-		//Update selected date of JCalendar#2
+		//Update selected date and number of nights of JCalendars when selecting date in calendar 2#
 		calendar2.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent arg0) {
 				
 				Booking b = new Booking();
 				b.showDates(calendar1, calendar2, textPaneDate1, textPaneDate2);
+	
+				int nights = b.nightsBetween(calendar1, calendar2);
+				textFieldBookingNights.setText(Integer.toString(nights));
+				textFieldBookingNights2.setText(Integer.toString(nights));
 			}
 		});
 		//2nd page "Back" -button.
@@ -1249,7 +1300,7 @@ public class Interface {
 				panelCOUT_input.setVisible(true);
 			}
 		});
-		
+		//Calculate price based on the number of nights, taking the end-date from the textfield "currentdate".
 		btnCalculate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				

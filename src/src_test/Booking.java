@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -190,6 +191,7 @@ public class Booking extends Interface{
 			
 	}
 	//Method for validating the customer's card information, and if validated, record the completed booking in the database and display a summary with a generated booking number.
+	//This method implements the .icCreditCardValid method.
 	protected void bookingValidate(JTable table_1, JTable table_2, JTable table_3, JCalendar calendar1, 
 			JCalendar calendar2, JTextField textField_name, JTextField textField_surname, JTextField textField_cardNum, 
 			JTextField textField_BNV, JComboBox comboBoxMM, JComboBox comboBoxYY, JTextField textField_1, JTextField textField_2, JTextField textField_3, JTextField textField_4, 
@@ -393,5 +395,38 @@ public class Booking extends Interface{
 		textField_7.setText(EndDate);
 		textField_8.setText(bookingNum);		
 	}
+	
+protected int nightsBetween(JCalendar calendar1, JCalendar calendar2) {
+		
+	Calendar start = Calendar.getInstance();
+    Calendar end = Calendar.getInstance();
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    
+    Date c1 = calendar1.getDate();
+	Date c2 = calendar2.getDate();
+	
+	Format formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+	String startDate = formatter1.format(c1);
+	Format formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+	String endDate = formatter2.format(c2);
+    
+    try {
+    
+    start.setTime(formatter.parse(startDate));
+    end.setTime(formatter.parse(endDate));
+    
+    }
+	catch(Exception exr){
+		exr.printStackTrace();
+	}
+
+    Calendar date = (Calendar) start.clone();
+    int daysBetween = 0;
+    while (date.before(end)) {
+        date.add(Calendar.DAY_OF_MONTH, 1);
+        daysBetween++;
+    }
+    return daysBetween;
+    }
 	
 }

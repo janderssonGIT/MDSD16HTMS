@@ -187,7 +187,8 @@ public class CheckOut {
 		return res;
 		
 	}
-	//Process payment
+	//Process payment.
+	//This method implements the .makePayment method.
 	protected void makePayment(JTextField textFieldCOUT, String price) {
 		
 		SQLconnection c = new SQLconnection();
