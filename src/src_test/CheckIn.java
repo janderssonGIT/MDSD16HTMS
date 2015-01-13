@@ -14,7 +14,7 @@ public class CheckIn extends Interface {
 		
 	}
 	//Retrieve customer data for check-in using a booking-number.
-	protected void getCheckInData(JTextField textFieldCIN, JTextField ConfirmName, JTextField ConfirmSurName, JTextField rid1, JTextField rid2, JTextField rid3,
+	public void getCheckInData(JTextField textFieldCIN, JTextField ConfirmName, JTextField ConfirmSurName, JTextField rid1, JTextField rid2, JTextField rid3,
 			JTextField ConfirmStartDate, JTextField ConfirmEndDate, JPanel panelCIN_input, JPanel panelCIN_confirm) {
 		
 		SQLconnection c = new SQLconnection();
@@ -24,7 +24,7 @@ public class CheckIn extends Interface {
 		
 		try {
 		
-			if (textFieldCIN.getText() != null) {  //fix condition
+			if (textFieldCIN.getText() != null) { 
 				
 			String bookingInfoSql = String.format("select * from BookingData where BookingNum = %s", bookingNum);		
 			PreparedStatement sql = c.connect.prepareStatement(bookingInfoSql);
@@ -63,6 +63,7 @@ public class CheckIn extends Interface {
 		}
 		catch(Exception exr){
 			exr.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Please enter a valid booking number!");
 		}
 
 		finally{

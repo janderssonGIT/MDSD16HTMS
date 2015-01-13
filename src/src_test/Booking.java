@@ -214,7 +214,7 @@ public class Booking extends Interface{
 				surname)) {
 			System.out.println("Valid credit card");
 			JOptionPane.showMessageDialog(null, "Credit card was successfully validated.");
-			//call putData
+	
 			
 			String bookingNum = this.bookingPutBookingData(table_1, table_2, table_3, calendar1, calendar2);
 			this.bookingPutCustomerData(textField_name, textField_surname, textField_cardNum, textField_BNV, comboBoxMM, comboBoxYY, bookingNum);
@@ -429,4 +429,70 @@ protected int nightsBetween(JCalendar calendar1, JCalendar calendar2) {
     return daysBetween;
     }
 	
+protected double calculatePriceBooking(int value, JTable table_1, JTable table_2, JTable table_3) {
+	
+	SQLconnection c = new SQLconnection();
+	c.StartConnection();
+	
+	double res = 0;
+	double rid1 = 0;
+	double rid2 = 0;
+	double rid3 = 0;
+
+	String RID1 = "";
+	String RID2 = "";
+	String RID3 = "";
+	
+	if (table_3.getModel().getRowCount() > 0) {
+		RID1 = (table_1.getModel().getValueAt(0,0).toString());
+		RID2 = (table_2.getModel().getValueAt(0,0).toString());
+		RID3 = (table_3.getModel().getValueAt(0,0).toString());
+	
+	} else if (table_2.getModel().getRowCount() > 0) {	
+		RID1 = (table_1.getModel().getValueAt(0,0).toString());
+		RID2 = (table_2.getModel().getValueAt(0,0).toString());
+
+		
+	} else if (table_1.getModel().getRowCount() > 0) {	
+		RID1 = (table_1.getModel().getValueAt(0,0).toString());
+
+	}
+	
+	try {
+		
+		String RoomPriceSQL1 = String.format("select RoomPrice from RoomData where RoomId = %s", RID1);
+		PreparedStatement sql1 = c.connect.prepareStatement(RoomPriceSQL1);
+		ResultSet rsq = sql1.executeQuery();
+		rid1 = rsq.getDouble("RoomPrice");
+		
+		if (!RID2.equals("")) {
+			
+			String RoomPriceSQL2 = String.format("select RoomPrice from RoomData where RoomId = %s", RID2);
+			PreparedStatement sql2 = c.connect.prepareStatement(RoomPriceSQL2);
+			rsq = sql2.executeQuery();
+			rid2 = rsq.getDouble("RoomPrice");
+		} 
+		
+		if (!RID3.equals("")) {
+			
+			String RoomPriceSQL3 = String.format("select RoomPrice from RoomData where RoomId = %s", RID3);
+			PreparedStatement sql3 = c.connect.prepareStatement(RoomPriceSQL3);
+			rsq = sql3.executeQuery();
+			rid3 = rsq.getDouble("RoomPrice");
+		} 
+
+		res = value * (rid1 + rid2 + rid3);	
+		
+	}
+	catch(Exception exr){
+		exr.printStackTrace();
+	}
+
+	finally{
+		c.endConnection(); 
+	}
+	
+	return res;
+	
+}
 }

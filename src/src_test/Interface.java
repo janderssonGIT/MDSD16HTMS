@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -23,9 +24,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
 import src_test.Room;
+
 import com.toedter.calendar.JCalendar;
+
 import javax.swing.JTextPane;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.awt.Font;
@@ -141,7 +147,7 @@ public class Interface {
 	protected JButton btnCalculate;
 	private JTextField textFieldBookingNights;
 	private JTextField textFieldBookingNights2;
-	private JTextField textField_9;
+	private JTextField textFieldBookingPrice;
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -804,7 +810,7 @@ public class Interface {
 		lblNewLabel_1.setBounds(10, 199, 146, 14);
 		bookingCinfo.add(lblNewLabel_1);
 		
-		JLabel lblBnvNumber = new JLabel("BNV number:");
+		JLabel lblBnvNumber = new JLabel("BVN number:");
 		lblBnvNumber.setBounds(10, 224, 93, 14);
 		bookingCinfo.add(lblBnvNumber);
 		
@@ -952,12 +958,12 @@ public class Interface {
 		lblCalculatedPrice.setBounds(10, 299, 106, 14);
 		bookingSummary.add(lblCalculatedPrice);
 		
-		textField_9 = new JTextField();
-		textField_9.setEditable(false);
-		textField_9.setColumns(10);
-		textField_9.setBackground(Color.LIGHT_GRAY);
-		textField_9.setBounds(112, 293, 57, 20);
-		bookingSummary.add(textField_9);
+		textFieldBookingPrice = new JTextField();
+		textFieldBookingPrice.setEditable(false);
+		textFieldBookingPrice.setColumns(10);
+		textFieldBookingPrice.setBackground(Color.LIGHT_GRAY);
+		textFieldBookingPrice.setBounds(112, 293, 57, 20);
+		bookingSummary.add(textFieldBookingPrice);
 		
 		JLabel lblSek = new JLabel("SEK");
 		lblSek.setBounds(174, 299, 46, 14);
@@ -1196,7 +1202,9 @@ public class Interface {
 						textField_BNV, comboBoxMM, comboBoxYY, textField_1, textField_2, textField_3, textField_4, textField_5, textField_6, textField_7, textField_8,
 						bookingSelections, bookingSearchRes, bookingCinfo, bookingSummary);
 				
-				
+				int value = Integer.parseInt(textFieldBookingNights2.getText());
+				Double price = b.calculatePriceBooking(value, table_1, table_2, table_3);
+				textFieldBookingPrice.setText(price.toString());
 				
 			}
 		});		
@@ -1213,6 +1221,36 @@ public class Interface {
 				bookingSearchRes.setVisible(false);
 				bookingCinfo.setVisible(false);
 				bookingSummary.setVisible(false);
+				
+				calendar2.setDate(Date.from(LocalDateTime.now().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()));
+				calendar1.setDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
+				DefaultTableModel model1 = (DefaultTableModel) table_1.getModel();
+			    model1.setRowCount(0);
+			    DefaultTableModel model2 = (DefaultTableModel) table_2.getModel();
+			    model2.setRowCount(0);
+			    DefaultTableModel model3 = (DefaultTableModel) table_3.getModel();
+			    model3.setRowCount(0);
+	
+				comboBoxBookNumRooms.setSelectedIndex(0);
+				comboBoxRI.setSelectedIndex(0);
+				comboBoxRII.setSelectedIndex(0);
+				comboBoxRIII.setSelectedIndex(0);
+				comboBoxMM.setSelectedIndex(0);
+				comboBoxYY.setSelectedIndex(0);
+				
+				textField_name.setText("");
+				textField_surname.setText("");
+				textField_cardNum.setText("");
+				textField_BNV.setText("");
+				textFieldBookingPrice.setText("");
+				textField_1.setText("");
+				textField_2.setText("");
+				textField_3.setText("");
+				textField_4.setText("");
+				textField_5.setText("");
+				textField_6.setText("");
+				textField_7.setText("");
+
 			}
 		});
 		
