@@ -24,5 +24,4 @@ public class Main extends Interface{
 	}
 
 }
-//jim was here
-//yeah man saw that
+
